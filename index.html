@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <!--JUST MONIAK!!!-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>莫妮卡AI提示词 - 心跳文学部</title>
+    <link rel="icon" href="https://ddlc.moe/images/favicon.png" type="image/png">
     <style>
+        
         /* 基础样式 */
         * {
             margin: 0;
@@ -12,13 +15,75 @@
             box-sizing: border-box;
         }
         
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #fff5f5;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff9a9a' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-        }
+        /* 动态背景效果 */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fff5f5;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='500' height='500' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M22 28c4.639 0 8.4-3.761 8.4-8.4s-3.761-8.4-8.4-8.4-8.4 3.761-8.4 8.4 3.761 8.4 8.4 8.4zm57.6 30c4.639 0 8.4-3.761 8.4-8.4s-3.761-8.4-8.4-8.4-8.4 3.761-8.4 8.4 3.761 8.4 8.4 8.4zm-51.6-8.4c1.988 0 3.6-1.612 3.6-3.6s-1.612-3.6-3.6-3.6-3.6 1.612-3.6 3.6 1.612 3.6 3.6 3.6zm75.6 37.2c1.988 0 3.6-1.612 3.6-3.6s-1.612-3.6-3.6-3.6-3.6 1.612-3.6 3.6 1.612 3.6 3.6 3.6zM40.8 108c1.988 0 3.6-1.612 3.6-3.6s-1.612-3.6-3.6-3.6-3.6 1.612-3.6 3.6 1.612 3.6 3.6 3.6zm67.2-91.2c1.988 0 3.6-1.612 3.6-3.6s-1.612-3.6-3.6-3.6-3.6 1.612-3.6 3.6 1.612 3.6 3.6 3.6zM14.4 103.2c2.652 0 4.8-2.148 4.8-4.8s-2.148-4.8-4.8-4.8-4.8 2.148-4.8 4.8 2.148 4.8 4.8 4.8zm33.6-78c2.652 0 4.8-2.148 4.8-4.8s-2.148-4.8-4.8-4.8-4.8 2.148-4.8 4.8 2.148 4.8 4.8 4.8zm27.6-13.2c3.312 0 6-2.688 6-6s-2.688-6-6-6-6 2.688-6 6 2.688 6 6 6zm-7.2 72c2.652 0 4.8-2.148 4.8-4.8s-2.148-4.8-4.8-4.8-4.8 2.148-4.8 4.8 2.148 4.8 4.8 4.8zm34.8 26.4c3.312 0 6-2.688 6-6s-2.688-6-6-6-6 2.688-6 6 2.688 6 6 6zM38.4 75.6c3.312 0 6-2.688 6-6s-2.688-6-6-6-6 2.688-6 6 2.688 6 6 6zm68.4-15.6c3.312 0 6-2.688 6-6s-2.688-6-6-6-6 2.688-6 6 2.688 6 6 6zm-10.8-25.2c1.326 0 2.4-1.074 2.4-2.4s-1.074-2.4-2.4-2.4-2.4 1.074-2.4 2.4 1.074 2.4 2.4 2.4zM72 109.2c1.326 0 2.4-1.074 2.4-2.4s-1.074-2.4-2.4-2.4-2.4 1.074-2.4 2.4 1.074 2.4 2.4 2.4zM42 49.2c1.326 0 2.4-1.074 2.4-2.4s-1.074-2.4-2.4-2.4-2.4 1.074-2.4 2.4 1.074 2.4 2.4 2.4zM14.4 72c1.326 0 2.4-1.074 2.4-2.4s-1.074-2.4-2.4-2.4-2.4 1.074-2.4 2.4 1.074 2.4 2.4 2.4z' fill='%23ff9a9a' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+    z-index: -1;
+    animation: backgroundScroll 40s linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes backgroundScroll {
+    0% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+
+/* 添加渐变层增强视觉效果 */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,154,203,0.3) 0%, rgba(201,123,204,0.3) 50%, rgba(163,161,248,0.2) 100%);
+    z-index: -2;
+    opacity: 0.4;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff9a9a' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    z-index: -2;
+    opacity: 0.3;
+}
         
         .container {
             max-width: 1000px;
@@ -102,25 +167,111 @@
             text-align: center;
         }
         
-        .character-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: #f8f8f8;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            color: #c97bcc;
-            font-size: 3rem;
-        }
+       .character-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+    background: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.character-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.character:hover .character-img {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.character:hover .character-img img {
+    transform: scale(1.05);
+}
         
         .character h3 {
             color: #c97bcc;
             margin-bottom: 10px;
         }
         
+        .floating-hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff9acb' opacity='0.3'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") no-repeat center center;
+    background-size: contain;
+    opacity: 0;
+    animation: floatHeart 15s linear infinite;
+}
+
+.heart:nth-child(1) {
+    left: 10%;
+    animation-delay: 0s;
+    width: 15px;
+    height: 15px;
+}
+
+.heart:nth-child(2) {
+    left: 20%;
+    animation-delay: 2s;
+    width: 25px;
+    height: 25px;
+}
+
+.heart:nth-child(3) {
+    left: 30%;
+    animation-delay: 4s;
+}
+
+.heart:nth-child(4) {
+    left: 40%;
+    animation-delay: 6s;
+    width: 18px;
+    height: 18px;
+}
+
+.heart:nth-child(5) {
+    left: 50%;
+    animation-delay: 8s;
+    width: 22px;
+    height: 22px;
+}
+
+@keyframes floatHeart {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(0deg);
+    }
+    10% {
+        opacity: 0.5;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100px) rotate(360deg);
+    }
+}
         /* 提示词区域样式 */
         .prompt-section {
             background: #f9f3f9;
@@ -202,6 +353,18 @@
             margin: 5px 0;
             color: #8a598a;
         }
+        .header-decoration {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    opacity: 0.7;
+    z-index: 3;
+}
+
+.header-decoration img {
+    height: 80px;
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+}
         
         /* 响应式设计 */
         @media (max-width: 768px) {
@@ -232,9 +395,12 @@
 <body>
     <div class="container">
         <header>
-            <h1>莫妮卡AI提示词项目</h1>
-            <p>一个为心跳文学部粉丝打造的沉浸式AI交互体验</p>
-        </header>
+    <div class="header-decoration">
+        <img src="https://raw.githubusercontent.com/SecondThundeR/DokiDoki-RenPy/your-reality/readme_files/logos/ddlc_logo.png" alt="DDLC LOGO">
+    </div>
+    <h1>莫妮卡AI提示词项目</h1>
+    <p>一个为心跳文学部粉丝打造的沉浸式AI交互体验</p>
+</header>
                 <section class="content-section warning-section">
             <div class="warning-header">
                 <h2>⚠️ 重要警告与声明</h2>
@@ -276,28 +442,40 @@
             <p>游戏围绕一名高中生展开，他应好友纱世里的邀请加入了学校的文学部。在文学部中，玩家遇到了四位性格各异的女主角：活泼开朗的纱世里、害羞内向的优里、傲娇可爱的夏树，以及聪明优雅的部长莫妮卡。</p>
             <p>随着故事的推进，游戏逐渐打破了第四面墙，揭示了其元虚构的本质，角色们开始意识到自己处于游戏世界中，并与之互动。</p>
             
-            <div class="character-showcase">
-                <div class="character">
-                    <div class="character-img">S</div>
-                    <h3>纱世里(Sayori)</h3>
-                    <p>阳光开朗的文学部副部长</p>
-                </div>
-                <div class="character">
-                    <div class="character-img">Y</div>
-                    <h3>优里(Yuri)</h3>
-                    <p>害羞内向的文学爱好者</p>
-                </div>
-                <div class="character">
-                    <div class="character-img">N</div>
-                    <h3>夏树(Natsuki)</h3>
-                    <p>傲娇可爱的 manga 爱好者</p>
-                </div>
-                <div class="character">
-                    <div class="character-img">M</div>
-                    <h3>莫妮卡(Monika)</h3>
-                    <p>聪明优雅的文学部部长</p>
-                </div>
-            </div>
+           <div class="character-showcase">
+    <div class="character">
+        <div class="character-img">
+            <img src="https://ddlc.moe/images/sticker_s.png" alt="纱世里(Sayori)">
+        </div>
+        <h3>纱世里(Sayori)</h3>
+        <p>"阳光开朗"的文学部副部长</p>
+        <a href="https://mzh.moegirl.org.cn/%E7%BA%B1%E4%B8%96%E9%87%8C" target="_blank">详细介绍</a></p>
+    </div>
+    <div class="character">
+        <div class="character-img">
+            <img src="https://ddlc.moe/images/sticker_y.png" alt="优里(Yuri)">
+        </div>
+        <h3>优里(Yuri)</h3>
+        <p>害羞内向的恐怖小说爱好者</p>
+        <a href="https://mzh.moegirl.org.cn/%E4%BC%98%E9%87%8C" target="_blank">详细介绍</a></p>
+    </div>
+    <div class="character">
+        <div class="character-img">
+            <img src="https://ddlc.moe/images/sticker_n.png" alt="夏树(Natsuki)">
+        </div>
+        <h3>夏树(Natsuki)</h3>
+        <p>傲娇可爱的漫画爱好者</p>
+          <a href="https://mzh.moegirl.org.cn/%E5%A4%8F%E6%A0%91(%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8)#" target="_blank">详细介绍</a></p>
+    </div>
+    <div class="character">
+        <div class="character-img">
+            <img src="https://ddlc.moe/images/sticker_m.png" alt="莫妮卡(Monika)">
+        </div>
+        <h3>莫妮卡(Monika)</h3>
+        <p>聪明优雅的文学部部长</p>
+        <a href="https://mzh.moegirl.org.cn/%E8%8E%AB%E5%A6%AE%E5%8D%A1(%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8)#" target="_blank">详细介绍</a></p>
+    </div>
+</div>
         </section>
         
         <section class="content-section">
@@ -576,5 +754,12 @@ End of Prompt.
             <p>© 2025 莫妮卡AI提示词项目 - 版权所有</p>
         </div>
     </div>
+    <div class="floating-hearts">
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+</div>
 </body>
 </html>
