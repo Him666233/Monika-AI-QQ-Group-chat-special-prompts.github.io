@@ -1,0 +1,9 @@
+{
+  "_comment": "这是一个新版本提示词的模板文件，复制并重命名为 vXX.json 使用",
+  "version": "XX",
+  "name": "第XX版",
+  "description": "简短描述这个版本的主要特点（1-2句话，显示在版本卡片上）",
+  "intro": "详细的更新简介\n\n可以使用多行文本，支持换行。\n\n建议包含以下内容：\n1. 主要改进点\n2. 新增功能\n3. 修复的问题\n4. 性能优化",
+  "isLatest": false,
+  "promptFile": "texts/vXX.txt"
+}

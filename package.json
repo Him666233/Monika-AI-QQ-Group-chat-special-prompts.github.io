@@ -1,0 +1,28 @@
+{
+  "name": "monika-ai-prompts-modern",
+  "version": "2.0.0",
+  "description": "莫妮卡AI提示词 - 现代化版本",
+  "main": "index.html",
+  "scripts": {
+    "extract": "node extract-prompts.js",
+    "update": "node update-data.js",
+    "convert": "node convert-to-json.js",
+    "extract-txt": "node extract-to-txt.js",
+    "setup": "npm run extract && npm run update",
+    "serve": "npx serve .",
+    "start": "npm run serve"
+  },
+  "keywords": [
+    "DDLC",
+    "Monika",
+    "AI",
+    "Prompt",
+    "心跳文学部"
+  ],
+  "author": "Him666233",
+  "license": "SEE LICENSE IN README",
+  "devDependencies": {},
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
