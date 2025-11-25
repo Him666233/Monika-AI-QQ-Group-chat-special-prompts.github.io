@@ -15,7 +15,7 @@ async function loadPromptVersions() {
         console.log('📖 开始加载提示词版本...');
         
         // 1. 读取索引文件
-        const indexResponse = await fetch('prompts/index.json');
+        const indexResponse = await fetch(`prompts/index.json?ts=${Date.now()}`, { cache: 'no-store' });
         if (!indexResponse.ok) {
             throw new Error('无法加载 index.json');
         }
@@ -26,7 +26,7 @@ async function loadPromptVersions() {
         // 2. 加载所有版本文件
         const loadPromises = indexData.versions.map(async (filename) => {
             try {
-                const response = await fetch(`prompts/${filename}`);
+                const response = await fetch(`prompts/${filename}?ts=${Date.now()}`, { cache: 'no-store' });
                 if (!response.ok) {
                     console.error(`❌ 无法加载 ${filename}`);
                     return null;
@@ -36,7 +36,7 @@ async function loadPromptVersions() {
                 // 3. 如果有promptFile字段，加载对应的txt文件
                 if (data.promptFile) {
                     try {
-                        const txtResponse = await fetch(`prompts/${data.promptFile}`);
+                        const txtResponse = await fetch(`prompts/${data.promptFile}?ts=${Date.now()}`, { cache: 'no-store' });
                         if (txtResponse.ok) {
                             data.prompt = await txtResponse.text();
                             console.log(`   ✅ 加载 ${filename} 和 ${data.promptFile}`);
