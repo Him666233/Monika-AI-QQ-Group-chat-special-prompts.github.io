@@ -81,9 +81,39 @@ class MonikaPet {
             dragged: 'images/MonikaQ_2.png'
         };
 
+        // 预加载的图片缓存
+        this.imageCache = {};
+
         this.animationId = null;
 
-        this.init();
+        // 先预加载图片，再初始化
+        this.preloadImages().then(() => {
+            this.init();
+        });
+    }
+
+    /**
+     * 预加载所有图片到缓存
+     * @returns {Promise} 所有图片加载完成的 Promise
+     */
+    preloadImages() {
+        const imageUrls = Object.values(this.images);
+        const loadPromises = imageUrls.map(url => {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    this.imageCache[url] = img;
+                    console.log(`[MonikaPet] 图片预加载完成: ${url}`);
+                    resolve();
+                };
+                img.onerror = () => {
+                    console.warn(`[MonikaPet] 图片预加载失败: ${url}`);
+                    resolve(); // 即使失败也继续
+                };
+                img.src = url;
+            });
+        });
+        return Promise.all(loadPromises);
     }
 
     init() {
@@ -93,6 +123,22 @@ class MonikaPet {
         this.bindEvents();
         this.startAnimation();
         this.scheduleNextJump();
+        this.startCacheKeepAlive();
+    }
+
+    /**
+     * 定期刷新图片缓存，防止被浏览器清除
+     * 每5分钟重新触发一次缓存
+     */
+    startCacheKeepAlive() {
+        this.cacheKeepAliveInterval = setInterval(() => {
+            Object.values(this.images).forEach(url => {
+                if (this.imageCache[url]) {
+                    // 重新访问图片数据，保持缓存活跃
+                    void this.imageCache[url].width;
+                }
+            });
+        }, 5 * 60 * 1000); // 每5分钟
     }
 
     createPetElement() {
@@ -522,6 +568,9 @@ class MonikaPet {
     destroy() {
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
+        }
+        if (this.cacheKeepAliveInterval) {
+            clearInterval(this.cacheKeepAliveInterval);
         }
         if (this.element && this.element.parentNode) {
             this.element.parentNode.removeChild(this.element);
