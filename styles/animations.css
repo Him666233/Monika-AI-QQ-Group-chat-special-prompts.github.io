@@ -311,3 +311,62 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-color);
 }
+
+/* =============================================
+   莫妮卡桌宠样式
+   ============================================= */
+
+.monika-pet {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    transition: filter 0.2s ease;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.monika-pet:hover {
+    filter: drop-shadow(0 6px 12px rgba(255, 154, 203, 0.4));
+}
+
+.monika-pet:active {
+    cursor: grabbing;
+}
+
+.monika-pet img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* 桌宠落地时的微小弹跳动画 */
+@keyframes petBounce {
+    0%, 100% {
+        transform: scaleY(1) scaleX(1);
+    }
+    50% {
+        transform: scaleY(0.9) scaleX(1.1);
+    }
+}
+
+.monika-pet.bouncing img {
+    animation: petBounce 0.15s ease-out;
+}
+
+/* 响应式调整 - 桌宠 */
+@media (max-width: 768px) {
+    .monika-pet {
+        width: 90px !important;
+        height: 112px !important;
+    }
+}
