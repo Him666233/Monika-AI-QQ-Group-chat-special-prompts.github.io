@@ -5,9 +5,6 @@
 
 class MonikaPet {
     constructor() {
-        // 先显示加载提示
-        this.showLoadingIndicator();
-
         this.STATE = {
             IDLE: 'idle',
             WALKING: 'walking',
@@ -93,6 +90,9 @@ class MonikaPet {
         this.animationId = null;
         this.loadingElement = null;
 
+        // 先显示加载提示，再预加载图片
+        this.showLoadingIndicator();
+
         // 先预加载图片，再初始化
         this.preloadImages().then(() => {
             this.hideLoadingIndicator();
@@ -108,7 +108,7 @@ class MonikaPet {
         this.loadingElement.id = 'monika-pet-loading';
         this.loadingElement.innerHTML = `
             <div class="pet-loading-heart">♥</div>
-            <div class="pet-loading-text">莫妮卡正在赶来...</div>
+            <div class="pet-loading-text">小莫妮卡正在赶来...</div>
         `;
         this.loadingElement.style.cssText = `
             position: fixed;
