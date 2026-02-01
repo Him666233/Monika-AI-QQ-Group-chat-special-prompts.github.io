@@ -5,6 +5,9 @@
 
 class MonikaPet {
     constructor() {
+        // 先显示加载提示
+        this.showLoadingIndicator();
+
         this.STATE = {
             IDLE: 'idle',
             WALKING: 'walking',
@@ -84,12 +87,106 @@ class MonikaPet {
         // 预加载的图片缓存
         this.imageCache = {};
 
+        // 视野外的隐藏图片容器（用于保持缓存）
+        this.hiddenImageContainer = null;
+
         this.animationId = null;
+        this.loadingElement = null;
 
         // 先预加载图片，再初始化
         this.preloadImages().then(() => {
+            this.hideLoadingIndicator();
             this.init();
         });
+    }
+
+    /**
+     * 显示 DDLC 风格的加载提示
+     */
+    showLoadingIndicator() {
+        this.loadingElement = document.createElement('div');
+        this.loadingElement.id = 'monika-pet-loading';
+        this.loadingElement.innerHTML = `
+            <div class="pet-loading-heart">♥</div>
+            <div class="pet-loading-text">莫妮卡正在赶来...</div>
+        `;
+        this.loadingElement.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, rgba(255,182,193,0.95) 0%, rgba(255,105,180,0.95) 100%);
+            padding: 12px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(255,105,180,0.4);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Microsoft YaHei', sans-serif;
+            animation: petLoadingFadeIn 0.3s ease-out;
+            border: 2px solid rgba(255,255,255,0.5);
+        `;
+
+        // 添加样式
+        const style = document.createElement('style');
+        style.id = 'monika-pet-loading-style';
+        style.textContent = `
+            @keyframes petLoadingFadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes petLoadingFadeOut {
+                from { opacity: 1; transform: translateY(0); }
+                to { opacity: 0; transform: translateY(20px); }
+            }
+            @keyframes petHeartBeat {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.3); }
+            }
+            @keyframes petTextGlitch {
+                0%, 100% { opacity: 1; }
+                92% { opacity: 1; }
+                93% { opacity: 0.5; transform: translateX(-2px); }
+                94% { opacity: 1; transform: translateX(0); }
+                96% { opacity: 0.7; transform: translateX(1px); }
+                97% { opacity: 1; transform: translateX(0); }
+            }
+            #monika-pet-loading .pet-loading-heart {
+                font-size: 20px;
+                color: #fff;
+                animation: petHeartBeat 0.8s ease-in-out infinite;
+                text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            }
+            #monika-pet-loading .pet-loading-text {
+                color: #fff;
+                font-size: 14px;
+                font-weight: 500;
+                letter-spacing: 1px;
+                animation: petTextGlitch 3s ease-in-out infinite;
+                text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            }
+        `;
+        document.head.appendChild(style);
+        document.body.appendChild(this.loadingElement);
+    }
+
+    /**
+     * 隐藏加载提示
+     */
+    hideLoadingIndicator() {
+        if (this.loadingElement) {
+            this.loadingElement.style.animation = 'petLoadingFadeOut 0.3s ease-out forwards';
+            setTimeout(() => {
+                if (this.loadingElement && this.loadingElement.parentNode) {
+                    this.loadingElement.parentNode.removeChild(this.loadingElement);
+                }
+                const style = document.getElementById('monika-pet-loading-style');
+                if (style) {
+                    style.parentNode.removeChild(style);
+                }
+                this.loadingElement = null;
+            }, 300);
+        }
     }
 
     /**
@@ -117,28 +214,45 @@ class MonikaPet {
     }
 
     init() {
+        this.createHiddenImages();
         this.createPetElement();
         this.updateBounds();
         this.setInitialPosition();
         this.bindEvents();
         this.startAnimation();
         this.scheduleNextJump();
-        this.startCacheKeepAlive();
     }
 
     /**
-     * 定期刷新图片缓存，防止被浏览器清除
-     * 每5分钟重新触发一次缓存
+     * 在视野外创建隐藏的图片元素
+     * 这些图片会一直存在于 DOM 中，浏览器不会清除它们的缓存
      */
-    startCacheKeepAlive() {
-        this.cacheKeepAliveInterval = setInterval(() => {
-            Object.values(this.images).forEach(url => {
-                if (this.imageCache[url]) {
-                    // 重新访问图片数据，保持缓存活跃
-                    void this.imageCache[url].width;
-                }
-            });
-        }, 5 * 60 * 1000); // 每5分钟
+    createHiddenImages() {
+        this.hiddenImageContainer = document.createElement('div');
+        this.hiddenImageContainer.id = 'monika-pet-cache';
+        this.hiddenImageContainer.setAttribute('aria-hidden', 'true');
+        this.hiddenImageContainer.style.cssText = `
+            position: fixed;
+            left: -99999px;
+            top: -99999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            pointer-events: none;
+            visibility: hidden;
+            z-index: -9999;
+        `;
+
+        // 把所有缓存的图片放进去
+        Object.values(this.images).forEach(url => {
+            if (this.imageCache[url]) {
+                const img = this.imageCache[url].cloneNode();
+                img.style.cssText = 'width:1px;height:1px;';
+                this.hiddenImageContainer.appendChild(img);
+            }
+        });
+
+        document.body.appendChild(this.hiddenImageContainer);
     }
 
     createPetElement() {
@@ -569,12 +683,13 @@ class MonikaPet {
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
         }
-        if (this.cacheKeepAliveInterval) {
-            clearInterval(this.cacheKeepAliveInterval);
+        if (this.hiddenImageContainer && this.hiddenImageContainer.parentNode) {
+            this.hiddenImageContainer.parentNode.removeChild(this.hiddenImageContainer);
         }
         if (this.element && this.element.parentNode) {
             this.element.parentNode.removeChild(this.element);
         }
+        this.hideLoadingIndicator();
     }
 }
 
