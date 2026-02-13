@@ -1,14 +1,24 @@
-/* Hero 区域 */
+/* Hero 区域 - 情人节增强版 */
 .hero-section {
     text-align: center;
     padding: 4rem 2rem;
-    background: linear-gradient(135deg, #ff9acb 0%, #c97bcc 100%);
+    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 50%, #ff85c1 100%);
     color: white;
     border-radius: var(--border-radius);
     margin-bottom: 2rem;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 8px 32px rgba(255, 105, 180, 0.4), 0 0 60px rgba(255, 20, 147, 0.3);
     position: relative;
     overflow: hidden;
+    animation: heroGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes heroGlow {
+    from {
+        box-shadow: 0 8px 32px rgba(255, 105, 180, 0.4), 0 0 60px rgba(255, 20, 147, 0.3);
+    }
+    to {
+        box-shadow: 0 8px 40px rgba(255, 105, 180, 0.6), 0 0 80px rgba(255, 20, 147, 0.5);
+    }
 }
 
 .hero-section::before {
@@ -66,12 +76,22 @@
 .btn-primary {
     background: white;
     color: var(--secondary-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3), 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 25px rgba(255, 105, 180, 0.5), 0 0 30px rgba(255, 255, 255, 0.8);
+    animation: buttonPulse 1s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+    0%, 100% {
+        box-shadow: 0 6px 25px rgba(255, 105, 180, 0.5), 0 0 30px rgba(255, 255, 255, 0.8);
+    }
+    50% {
+        box-shadow: 0 8px 30px rgba(255, 105, 180, 0.7), 0 0 40px rgba(255, 255, 255, 1);
+    }
 }
 
 .btn-secondary {
@@ -86,7 +106,7 @@
     transform: translateY(-2px);
 }
 
-/* 卡片样式 */
+/* 卡片样式 - 情人节增强版 */
 .content-card {
     background: var(--card-background);
     padding: 2.5rem;
@@ -94,11 +114,13 @@
     margin-bottom: 2rem;
     box-shadow: var(--shadow-md);
     transition: var(--transition);
+    border: 2px solid rgba(255, 105, 180, 0.1);
 }
 
 .content-card:hover {
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 8px 32px rgba(255, 105, 180, 0.3), 0 0 20px rgba(255, 105, 180, 0.2);
     transform: translateY(-2px);
+    border-color: rgba(255, 105, 180, 0.3);
 }
 
 .card-header h2 {
@@ -367,6 +389,80 @@
 .footer-content p {
     margin: 0.5rem 0;
     color: #8a598a;
+}
+
+/* 情人节横幅 */
+.valentine-banner {
+    background: linear-gradient(90deg,
+        #ff1493 0%,
+        #ff69b4 25%,
+        #ff85c1 50%,
+        #ff69b4 75%,
+        #ff1493 100%);
+    padding: 12px 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+    animation: bannerShimmer 3s linear infinite;
+    background-size: 200% 100%;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+}
+
+@keyframes bannerShimmer {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.banner-heart {
+    font-size: 24px;
+    animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.2);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+
+.banner-text {
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+    .valentine-banner {
+        padding: 10px 15px;
+    }
+
+    .banner-content {
+        font-size: 14px;
+        gap: 10px;
+    }
+
+    .banner-heart {
+        font-size: 20px;
+    }
 }
 
 /* 加载提示 */

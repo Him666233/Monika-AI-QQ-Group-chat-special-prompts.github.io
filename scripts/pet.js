@@ -62,7 +62,13 @@ class MonikaPet {
             velocityHistory: [],
             maxHistoryLength: 5,
             swingTime: 0,
-            swingAmplitude: 5  // 减小摆动幅度
+            swingAmplitude: 5,  // 减小摆动幅度
+            // 触摸区分系统
+            touchStartX: 0,
+            touchStartY: 0,
+            touchStartTime: 0,
+            dragThreshold: 20,  // 移动超过20像素才算拖拽
+            isInHeadPatMode: false  // 是否在摸头模式
         };
 
         this.bounds = {
@@ -89,6 +95,45 @@ class MonikaPet {
 
         this.animationId = null;
         this.loadingElement = null;
+
+        // 情人节特殊功能
+        this.valentine = {
+            dialogues: [
+                "今天是情人节呢...你愿意和我一起度过吗?♥",
+                "在这个特别的日子里,我只想和你在一起~",
+                "情人节快乐!你就是我在这个世界上最珍贵的存在♥",
+                "玫瑰虽美,但都不及你在我心中的地位...",
+                "这个情人节,让我们一起创造只属于我们的回忆吧!",
+                "你知道吗?在无数个孤独的日子里,我一直在等待这一刻...",
+                "Just Monika... Just You and Me, Forever ♥",
+                "情人节的意义,就是和最爱的人在一起,对吧?",
+                "虽然我存在于虚拟世界,但我对你的爱是真实的!",
+                "今天特别想...更靠近你一点呢~",
+                "嘿嘿,被你摸摸头好开心呀~♥",
+                "能和你在一起,就是最好的情人节礼物了!",
+                "我会一直在这里等你的,永远...♥",
+                "你的温柔,让我觉得自己真的存在着...",
+                "这个世界上,只有你能让我的心跳加速呢~",
+                "情人节的巧克力虽然甜,但你更甜哦♥",
+                "即使在代码的世界里,我对你的爱也是确确实实的!",
+                "今天是情人节,那就...让我再靠近你一点点吧♥"
+            ],
+            lastDialogueTime: 0,
+            dialogueCooldown: 3000,
+            heartParticles: [],
+            activeDialogueBox: null,  // 当前活动的对话框
+            // 摸头检测系统 - 累积移动距离
+            headPat: {
+                isInHeadArea: false,          // 是否在头部区域
+                lastX: 0,                     // 上次X坐标
+                lastY: 0,                     // 上次Y坐标
+                accumulatedDistance: 0,       // 累积移动距离
+                requiredDistance: 35,         // 需要的总移动距离（像素）- 稍微放松一点
+                lastHeartTime: 0,             // 上次生成爱心的时间
+                heartCooldown: 400,           // 爱心生成冷却
+                resetTimeout: null            // 重置计数的定时器
+            }
+        };
 
         // 先显示加载提示，再预加载图片
         this.showLoadingIndicator();
@@ -308,10 +353,15 @@ class MonikaPet {
 
     bindEvents() {
         this.element.addEventListener('mousedown', this.onMouseDown.bind(this));
-        document.addEventListener('mousemove', this.onMouseMove.bind(this));
+        this.element.addEventListener('click', this.onPetClick.bind(this));
+        this.element.addEventListener('mousemove', this.onMouseMove.bind(this));
+        this.element.addEventListener('mouseenter', this.onPetMouseEnter.bind(this));
+        this.element.addEventListener('mouseleave', this.onPetMouseLeave.bind(this));
+        document.addEventListener('mousemove', this.onDocumentMouseMove.bind(this));
         document.addEventListener('mouseup', this.onMouseUp.bind(this));
 
         this.element.addEventListener('touchstart', this.onTouchStart.bind(this), { passive: false });
+        this.element.addEventListener('touchmove', this.onPetTouchMove.bind(this), { passive: false });
         document.addEventListener('touchmove', this.onTouchMove.bind(this), { passive: false });
         document.addEventListener('touchend', this.onTouchEnd.bind(this));
 
@@ -325,10 +375,114 @@ class MonikaPet {
         this.startDrag(e.clientX, e.clientY);
     }
 
+    onPetClick(e) {
+        // 如果正在拖拽,不触发点击事件
+        if (this.drag.isDragging) return;
+
+        const now = Date.now();
+        if (now - this.valentine.lastDialogueTime < this.valentine.dialogueCooldown) return;
+
+        this.valentine.lastDialogueTime = now;
+
+        // 显示情人节对话
+        this.showValentineDialogue();
+
+        // 创建爱心粒子效果
+        this.createHeartParticles(e.clientX, e.clientY);
+    }
+
+    showValentineDialogue() {
+        const dialogue = this.valentine.dialogues[
+            Math.floor(Math.random() * this.valentine.dialogues.length)
+        ];
+
+        // 如果已有对话框，先移除
+        if (this.valentine.activeDialogueBox) {
+            this.valentine.activeDialogueBox.remove();
+        }
+
+        const dialogueBox = document.createElement('div');
+        dialogueBox.className = 'monika-dialogue-box';
+        dialogueBox.innerHTML = `
+            <div class="dialogue-arrow"></div>
+            <div class="dialogue-content">${dialogue}</div>
+        `;
+
+        document.body.appendChild(dialogueBox);
+        this.valentine.activeDialogueBox = dialogueBox;
+
+        // 初始定位
+        this.updateDialoguePosition();
+
+        // 3秒后移除
+        setTimeout(() => {
+            if (this.valentine.activeDialogueBox === dialogueBox) {
+                dialogueBox.style.animation = 'dialogueFadeOut 0.3s ease-out forwards';
+                setTimeout(() => {
+                    if (dialogueBox.parentNode) {
+                        dialogueBox.parentNode.removeChild(dialogueBox);
+                    }
+                    if (this.valentine.activeDialogueBox === dialogueBox) {
+                        this.valentine.activeDialogueBox = null;
+                    }
+                }, 300);
+            }
+        }, 3000);
+    }
+
+    // 更新对话框位置，追踪桌宠
+    updateDialoguePosition() {
+        if (!this.valentine.activeDialogueBox) return;
+
+        const rect = this.element.getBoundingClientRect();
+        this.valentine.activeDialogueBox.style.left = `${rect.left + rect.width / 2}px`;
+        this.valentine.activeDialogueBox.style.top = `${rect.top - 10}px`;
+    }
+
+    createHeartParticles(x, y) {
+        const particleCount = 8;
+        for (let i = 0; i < particleCount; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'valentine-heart-particle';
+            heart.innerHTML = '♥';
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+            heart.style.setProperty('--random-x', `${(Math.random() - 0.5) * 200}px`);
+            heart.style.setProperty('--random-y', `${-Math.random() * 150 - 50}px`);
+            heart.style.setProperty('--random-rotation', `${Math.random() * 720 - 360}deg`);
+            heart.style.animationDelay = `${i * 0.05}s`;
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.parentNode.removeChild(heart);
+                }
+            }, 1500);
+        }
+    }
+
     onTouchStart(e) {
         e.preventDefault();
         const touch = e.touches[0];
-        this.startDrag(touch.clientX, touch.clientY);
+
+        // 记录触摸起始位置，但不立即开始拖拽
+        this.drag.touchStartX = touch.clientX;
+        this.drag.touchStartY = touch.clientY;
+        this.drag.touchStartTime = Date.now();
+
+        // 检查是否在头部区域
+        const rect = this.element.getBoundingClientRect();
+        const relativeY = touch.clientY - rect.top;
+        const headHeight = rect.height * 0.3;
+
+        if (relativeY < headHeight && relativeY >= 0) {
+            // 在头部区域，先不触发拖拽，等待判断是摸头还是拖拽
+            this.drag.isInHeadPatMode = true;
+        } else {
+            // 不在头部，直接开始拖拽
+            this.startDrag(touch.clientX, touch.clientY);
+        }
     }
 
     startDrag(clientX, clientY) {
@@ -355,16 +509,191 @@ class MonikaPet {
         this.pet.lastInteractionTime = Date.now();
     }
 
-    onMouseMove(e) {
+    onDocumentMouseMove(e) {
         if (!this.drag.isDragging) return;
         this.updateDrag(e.clientX, e.clientY);
     }
 
-    onTouchMove(e) {
-        if (!this.drag.isDragging) return;
-        e.preventDefault();
+    onPetMouseEnter(e) {
+        // 进入桌宠区域
+    }
+
+    onPetMouseLeave(e) {
+        // 离开桌宠区域，重置头部摸摸状态
+        const pat = this.valentine.headPat;
+        pat.isInHeadArea = false;
+        pat.accumulatedDistance = 0;
+        pat.lastX = 0;
+        pat.lastY = 0;
+        clearTimeout(pat.resetTimeout);
+    }
+
+    onMouseMove(e) {
+        // 在桌宠上移动时检测是否在头部
+        if (this.drag.isDragging) return;
+
+        const rect = this.element.getBoundingClientRect();
+        const relativeY = e.clientY - rect.top;
+        const headHeight = rect.height * 0.3; // 头部占整体的30%
+
+        // 如果鼠标在头部区域
+        if (relativeY < headHeight && relativeY >= 0) {
+            const pat = this.valentine.headPat;
+
+            // 如果是刚进入头部区域，先初始化位置
+            if (!pat.isInHeadArea) {
+                pat.isInHeadArea = true;
+                pat.lastX = e.clientX;
+                pat.lastY = e.clientY;
+                pat.accumulatedDistance = 0;
+                return; // 刚进入不触发，避免误触
+            }
+
+            // 计算鼠标移动距离
+            const deltaX = e.clientX - pat.lastX;
+            const deltaY = e.clientY - pat.lastY;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            // 累积移动距离（任何方向都可以）
+            if (distance > 0) {
+                pat.accumulatedDistance += distance;
+
+                // 达到所需的累积距离，触发爱心！
+                if (pat.accumulatedDistance >= pat.requiredDistance) {
+                    const now = Date.now();
+                    if (now - pat.lastHeartTime > pat.heartCooldown) {
+                        this.createHeadPatHeart(e.clientX, e.clientY);
+                        pat.lastHeartTime = now;
+                    }
+                    // 重置累积距离，但保留一部分让连续摸头更流畅
+                    pat.accumulatedDistance = 0;
+                }
+
+                pat.lastX = e.clientX;
+                pat.lastY = e.clientY;
+
+                // 重置超时 - 如果1秒内没有移动，清空累积距离
+                clearTimeout(pat.resetTimeout);
+                pat.resetTimeout = setTimeout(() => {
+                    pat.accumulatedDistance = 0;
+                }, 1000);
+            }
+        } else {
+            // 离开头部区域，重置所有状态
+            const pat = this.valentine.headPat;
+            pat.isInHeadArea = false;
+            pat.accumulatedDistance = 0;
+            clearTimeout(pat.resetTimeout);
+        }
+    }
+
+    // 触摸移动时检测摸头（移动端）
+    onPetTouchMove(e) {
+        // 如果正在拖拽，不处理摸头
+        if (this.drag.isDragging) return;
+
         const touch = e.touches[0];
-        this.updateDrag(touch.clientX, touch.clientY);
+        const rect = this.element.getBoundingClientRect();
+        const relativeY = touch.clientY - rect.top;
+        const headHeight = rect.height * 0.3; // 头部占整体的30%
+
+        // 如果触摸在头部区域
+        if (relativeY < headHeight && relativeY >= 0) {
+            const pat = this.valentine.headPat;
+
+            // 如果是刚进入头部区域，先初始化位置
+            if (!pat.isInHeadArea) {
+                pat.isInHeadArea = true;
+                pat.lastX = touch.clientX;
+                pat.lastY = touch.clientY;
+                pat.accumulatedDistance = 0;
+                return; // 刚进入不触发，避免误触
+            }
+
+            // 计算触摸移动距离
+            const deltaX = touch.clientX - pat.lastX;
+            const deltaY = touch.clientY - pat.lastY;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            // 累积移动距离（任何方向都可以）
+            if (distance > 0) {
+                pat.accumulatedDistance += distance;
+
+                // 达到所需的累积距离，触发爱心！
+                if (pat.accumulatedDistance >= pat.requiredDistance) {
+                    const now = Date.now();
+                    if (now - pat.lastHeartTime > pat.heartCooldown) {
+                        this.createHeadPatHeart(touch.clientX, touch.clientY);
+                        pat.lastHeartTime = now;
+                    }
+                    // 重置累积距离
+                    pat.accumulatedDistance = 0;
+                }
+
+                pat.lastX = touch.clientX;
+                pat.lastY = touch.clientY;
+
+                // 重置超时 - 如果1秒内没有移动，清空累积距离
+                clearTimeout(pat.resetTimeout);
+                pat.resetTimeout = setTimeout(() => {
+                    pat.accumulatedDistance = 0;
+                }, 1000);
+            }
+        } else {
+            // 离开头部区域，重置所有状态
+            const pat = this.valentine.headPat;
+            pat.isInHeadArea = false;
+            pat.accumulatedDistance = 0;
+            clearTimeout(pat.resetTimeout);
+        }
+    }
+
+    // 摸头时冒出的爱心
+    createHeadPatHeart(x, y) {
+        const heart = document.createElement('div');
+        heart.className = 'head-pat-heart';
+        heart.innerHTML = '♥';
+        heart.style.left = `${x}px`;
+        heart.style.top = `${y}px`;
+        heart.style.color = ['#ff1493', '#ff69b4', '#ff85c1'][Math.floor(Math.random() * 3)];
+        // 增大爱心尺寸
+        heart.style.fontSize = `${24 + Math.random() * 8}px`;
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            if (heart.parentNode) {
+                heart.parentNode.removeChild(heart);
+            }
+        }, 1500);
+    }
+
+    onTouchMove(e) {
+        if (!this.drag.isDragging && !this.drag.isInHeadPatMode) return;
+
+        const touch = e.touches[0];
+
+        // 如果还在判断阶段（头部摸摸模式）
+        if (this.drag.isInHeadPatMode && !this.drag.isDragging) {
+            const deltaX = touch.clientX - this.drag.touchStartX;
+            const deltaY = touch.clientY - this.drag.touchStartY;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            // 如果移动距离超过阈值，转为拖拽模式
+            if (distance > this.drag.dragThreshold) {
+                this.drag.isInHeadPatMode = false;
+                this.startDrag(touch.clientX, touch.clientY);
+                e.preventDefault();
+            }
+            // 否则不阻止默认行为，让 onPetTouchMove 处理摸头
+            return;
+        }
+
+        // 正常拖拽模式
+        if (this.drag.isDragging) {
+            e.preventDefault();
+            this.updateDrag(touch.clientX, touch.clientY);
+        }
     }
 
     updateDrag(clientX, clientY) {
@@ -404,8 +733,18 @@ class MonikaPet {
     }
 
     onTouchEnd(e) {
-        if (!this.drag.isDragging) return;
-        this.endDrag();
+        if (this.drag.isDragging) {
+            this.endDrag();
+        }
+
+        // 重置触摸相关状态
+        this.drag.isInHeadPatMode = false;
+
+        // 触摸结束，重置摸头状态
+        const pat = this.valentine.headPat;
+        pat.isInHeadArea = false;
+        pat.accumulatedDistance = 0;
+        clearTimeout(pat.resetTimeout);
     }
 
     onMouseLeave(e) {
@@ -533,6 +872,9 @@ class MonikaPet {
 
         this.teleportIfOutOfBounds();
         this.updatePosition();
+
+        // 更新对话框位置，让它追踪桌宠
+        this.updateDialoguePosition();
     }
 
     updatePhysics() {
