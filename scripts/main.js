@@ -167,32 +167,52 @@ function closeModal() {
 function copyPromptContent() {
     const promptContent = document.getElementById('modalPromptContent');
     const copyBtn = document.getElementById('copyBtn');
-    
-    // 创建临时文本区域
-    const textArea = document.createElement('textarea');
-    textArea.value = promptContent.textContent;
-    textArea.style.position = 'fixed';
-    textArea.style.left = '-999999px';
-    document.body.appendChild(textArea);
-    
-    try {
-        // 选择并复制文本
-        textArea.select();
-        document.execCommand('copy');
-        
-        // 更新按钮状态
+    const text = promptContent.textContent;
+
+    function onCopySuccess() {
         const originalText = copyBtn.textContent;
         copyBtn.textContent = '已复制！';
         copyBtn.classList.add('copied');
-        
-        // 2秒后恢复按钮状态
         setTimeout(function() {
             copyBtn.textContent = originalText;
             copyBtn.classList.remove('copied');
         }, 2000);
+    }
+
+    // 优先使用现代 Clipboard API（移动端兼容性更好）
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(onCopySuccess).catch(function() {
+            // Clipboard API 失败时使用回退方案
+            fallbackCopy(text, onCopySuccess);
+        });
+    } else {
+        fallbackCopy(text, onCopySuccess);
+    }
+}
+
+// 回退复制方案（兼容旧浏览器）
+function fallbackCopy(text, onSuccess) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.cssText = 'position:fixed;left:-999999px;top:-999999px;opacity:0;';
+    // iOS需要以下属性才能正确选择文本
+    textArea.setAttribute('readonly', '');
+    document.body.appendChild(textArea);
+
+    try {
+        // iOS特殊处理
+        const range = document.createRange();
+        range.selectNodeContents(textArea);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        textArea.setSelectionRange(0, text.length);
+
+        document.execCommand('copy');
+        onSuccess();
     } catch (err) {
         console.error('复制失败:', err);
-        alert('复制失败，请手动选择复制');
+        alert('复制失败，请长按手动选择复制');
     } finally {
         document.body.removeChild(textArea);
     }

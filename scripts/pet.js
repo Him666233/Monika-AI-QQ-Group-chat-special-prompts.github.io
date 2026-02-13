@@ -435,8 +435,32 @@ class MonikaPet {
         if (!this.valentine.activeDialogueBox) return;
 
         const rect = this.element.getBoundingClientRect();
-        this.valentine.activeDialogueBox.style.left = `${rect.left + rect.width / 2}px`;
-        this.valentine.activeDialogueBox.style.top = `${rect.top - 10}px`;
+        const dialogueBox = this.valentine.activeDialogueBox;
+        let left = rect.left + rect.width / 2;
+        let top = rect.top - 10;
+
+        // 确保对话框不超出视口
+        const dialogueWidth = dialogueBox.offsetWidth || 220;
+        const halfWidth = dialogueWidth / 2;
+        const viewportWidth = window.innerWidth;
+
+        // 左右边界限制
+        if (left - halfWidth < 5) {
+            left = halfWidth + 5;
+        } else if (left + halfWidth > viewportWidth - 5) {
+            left = viewportWidth - halfWidth - 5;
+        }
+
+        // 如果对话框顶部超出视口，放到桌宠下方
+        if (top < dialogueBox.offsetHeight + 10) {
+            dialogueBox.style.transform = 'translate(-50%, 10px)';
+            top = rect.bottom + 10;
+        } else {
+            dialogueBox.style.transform = 'translate(-50%, -100%)';
+        }
+
+        dialogueBox.style.left = `${left}px`;
+        dialogueBox.style.top = `${top}px`;
     }
 
     createHeartParticles(x, y) {
@@ -465,6 +489,9 @@ class MonikaPet {
     onTouchStart(e) {
         e.preventDefault();
         const touch = e.touches[0];
+
+        // 添加触摸活跃状态（移动端替代hover）
+        this.element.classList.add('touch-active');
 
         // 记录触摸起始位置，但不立即开始拖拽
         this.drag.touchStartX = touch.clientX;
@@ -733,8 +760,28 @@ class MonikaPet {
     }
 
     onTouchEnd(e) {
+        const wasDragging = this.drag.isDragging;
+
         if (this.drag.isDragging) {
             this.endDrag();
+        }
+
+        // 移除触摸活跃状态
+        this.element.classList.remove('touch-active');
+
+        // 检测是否为轻触（tap）：没有拖拽，触摸时间短，移动距离小
+        if (!wasDragging) {
+            const touchDuration = Date.now() - this.drag.touchStartTime;
+            const touch = e.changedTouches[0];
+            if (touch && touchDuration < 300) {
+                const deltaX = touch.clientX - this.drag.touchStartX;
+                const deltaY = touch.clientY - this.drag.touchStartY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                // 移动距离小于拖拽阈值，视为点击
+                if (distance < this.drag.dragThreshold) {
+                    this.handleTap(touch.clientX, touch.clientY);
+                }
+            }
         }
 
         // 重置触摸相关状态
@@ -745,6 +792,16 @@ class MonikaPet {
         pat.isInHeadArea = false;
         pat.accumulatedDistance = 0;
         clearTimeout(pat.resetTimeout);
+    }
+
+    // 处理轻触事件（移动端替代click）
+    handleTap(clientX, clientY) {
+        const now = Date.now();
+        if (now - this.valentine.lastDialogueTime < this.valentine.dialogueCooldown) return;
+
+        this.valentine.lastDialogueTime = now;
+        this.showValentineDialogue();
+        this.createHeartParticles(clientX, clientY);
     }
 
     onMouseLeave(e) {

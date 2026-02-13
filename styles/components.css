@@ -85,6 +85,11 @@
     animation: buttonPulse 1s ease-in-out infinite;
 }
 
+.btn-primary:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow: 0 2px 10px rgba(255, 105, 180, 0.4);
+}
+
 @keyframes buttonPulse {
     0%, 100% {
         box-shadow: 0 6px 25px rgba(255, 105, 180, 0.5), 0 0 30px rgba(255, 255, 255, 0.8);
@@ -106,6 +111,12 @@
     transform: translateY(-2px);
 }
 
+.btn-secondary:active {
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--secondary-color);
+    transform: translateY(0);
+}
+
 /* 卡片样式 - 情人节增强版 */
 .content-card {
     background: var(--card-background);
@@ -120,6 +131,11 @@
 .content-card:hover {
     box-shadow: 0 8px 32px rgba(255, 105, 180, 0.3), 0 0 20px rgba(255, 105, 180, 0.2);
     transform: translateY(-2px);
+    border-color: rgba(255, 105, 180, 0.3);
+}
+
+.content-card:active {
+    box-shadow: 0 4px 20px rgba(255, 105, 180, 0.3);
     border-color: rgba(255, 105, 180, 0.3);
 }
 
@@ -206,6 +222,11 @@
 .character-card:hover {
     background: linear-gradient(to bottom, rgba(255, 154, 203, 0.1), transparent);
     transform: translateY(-8px);
+}
+
+.character-card:active {
+    background: linear-gradient(to bottom, rgba(255, 154, 203, 0.15), transparent);
+    transform: translateY(-2px);
 }
 
 .character-avatar {
@@ -335,6 +356,11 @@
 
 .version-card:hover {
     transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.version-card:active {
+    transform: translateY(-2px) scale(0.98);
     box-shadow: var(--shadow-lg);
 }
 
@@ -472,4 +498,287 @@
     font-size: 1.2rem;
     color: var(--text-light);
     animation: fadeIn 0.5s ease;
+}
+
+/* =============================================
+   响应式设计 - 全设备适配
+   ============================================= */
+
+/* 极小屏手机 (< 480px) */
+@media (max-width: 479px) {
+    .hero-section {
+        padding: 2rem 1rem;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .content-card {
+        padding: 1.5rem;
+    }
+
+    .version-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .character-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .character-avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .modal-content {
+        width: 98%;
+        max-height: 95vh;
+    }
+
+    .modal-header {
+        padding: 0.8rem 1rem;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .modal-prompt-content {
+        font-size: 0.7rem;
+        padding: 0.8rem;
+        max-height: 250px;
+    }
+
+    .valentine-banner {
+        padding: 8px 10px;
+    }
+
+    .banner-content {
+        font-size: 12px;
+        gap: 8px;
+    }
+
+    .banner-heart {
+        font-size: 18px;
+    }
+}
+
+/* 普通手机 (480px - 768px) */
+@media (min-width: 480px) and (max-width: 768px) {
+    .hero-section {
+        padding: 3rem 1.5rem;
+    }
+
+    .content-card {
+        padding: 2rem;
+    }
+
+    .version-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.2rem;
+    }
+
+    .character-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+    }
+
+    .modal-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .modal-prompt-content {
+        font-size: 0.75rem;
+        padding: 1rem;
+        max-height: 300px;
+    }
+}
+
+/* 平板端 (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        max-width: 900px;
+    }
+
+    .hero-section {
+        padding: 3.5rem 2rem;
+    }
+
+    .version-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .character-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 800px;
+    }
+
+    .nav-menu {
+        gap: 1.5rem;
+    }
+}
+
+/* 小屏电脑 (1024px - 1440px) */
+@media (min-width: 1024px) and (max-width: 1440px) {
+    .container {
+        max-width: 1100px;
+    }
+
+    .version-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+
+    .character-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* 大屏电脑 (> 1440px) */
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1400px;
+    }
+
+    .hero-section {
+        padding: 5rem 2rem;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.75rem;
+    }
+
+    .version-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+
+    .content-card {
+        padding: 3rem;
+    }
+
+    .character-avatar {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+/* 横屏模式 (小屏设备) */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero-section {
+        padding: 2rem 1.5rem;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .content-card {
+        padding: 1.5rem;
+    }
+
+    .character-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+    }
+
+    .character-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .modal-content {
+        max-height: 85vh;
+    }
+
+    .modal-prompt-content {
+        max-height: 200px;
+    }
+
+    .valentine-banner {
+        padding: 6px 10px;
+    }
+
+    .banner-content {
+        font-size: 12px;
+    }
+}
+
+/* 触摸设备优化 - 增大触摸区域 */
+@media (pointer: coarse) {
+    .btn {
+        min-height: 44px;
+        padding: 0.9rem 2rem;
+    }
+
+    .version-card {
+        min-height: 150px;
+    }
+
+    .character-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .nav-menu a {
+        padding: 0.5rem 0;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    .modal-close {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* 打印样式 */
+@media print {
+    .monika-pet,
+    .floating-hearts,
+    .rose-petals-container,
+    .sparkle-particles,
+    .valentine-banner,
+    .navbar {
+        display: none !important;
+    }
+
+    .content-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
 }

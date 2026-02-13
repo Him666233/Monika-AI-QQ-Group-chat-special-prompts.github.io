@@ -171,8 +171,60 @@ body {
     width: 100%;
 }
 
-/* 响应式导航 */
-@media (max-width: 768px) {
+/* 响应式导航 - 全设备优化 */
+
+/* 极小屏手机 (< 480px) */
+@media (max-width: 479px) {
+    .nav-container {
+        padding: 0.8rem 1rem;
+    }
+
+    .nav-title {
+        font-size: 1rem;
+    }
+
+    .nav-logo {
+        height: 40px;
+    }
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        gap: 0;
+        padding: 0.75rem 0;
+        box-shadow: var(--shadow-md);
+        max-height: 0;
+        overflow: hidden;
+        transition: var(--transition);
+    }
+
+    .nav-menu.active {
+        max-height: 250px;
+    }
+
+    .nav-menu li {
+        padding: 0.6rem 1.5rem;
+    }
+
+    .nav-menu a {
+        font-size: 0.9rem;
+    }
+
+    .nav-menu a::after {
+        display: none;
+    }
+}
+
+/* 普通手机 (480px - 768px) */
+@media (min-width: 480px) and (max-width: 768px) {
     .nav-toggle {
         display: flex;
     }
@@ -202,5 +254,58 @@ body {
 
     .nav-menu a::after {
         display: none;
+    }
+}
+
+/* 平板端 (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .nav-container {
+        padding: 1rem 1.5rem;
+    }
+
+    .nav-menu {
+        gap: 1.5rem;
+    }
+
+    .nav-menu a {
+        font-size: 0.95rem;
+    }
+}
+
+/* 横屏模式 (小屏设备) */
+@media (max-width: 768px) and (orientation: landscape) {
+    .nav-container {
+        padding: 0.6rem 1.5rem;
+    }
+
+    .nav-logo {
+        height: 35px;
+    }
+
+    .nav-title {
+        font-size: 1rem;
+    }
+
+    .nav-menu.active {
+        max-height: 200px;
+    }
+
+    .nav-menu li {
+        padding: 0.5rem 1.5rem;
+    }
+}
+
+/* 大屏电脑 (> 1440px) */
+@media (min-width: 1440px) {
+    .nav-container {
+        max-width: 1400px;
+    }
+
+    .nav-menu {
+        gap: 2.5rem;
+    }
+
+    .nav-menu a {
+        font-size: 1.1rem;
     }
 }

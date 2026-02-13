@@ -42,7 +42,7 @@ class DDLCEffects {
     }
 
     addEasterEggs() {
-        // Konami Code
+        // Konami Code（桌面端）
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
                           'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
                           'KeyB', 'KeyA'];
@@ -59,6 +59,9 @@ class DDLCEffects {
                 konamiIndex = 0;
             }
         });
+
+        // 移动端手势彩蛋：连续滑动 ↑↑↓↓ 触发
+        this.setupMobileGesture();
 
         // 点击莫妮卡头像5次
         const monikaCard = document.querySelector('.character-card:last-child');
@@ -80,6 +83,49 @@ class DDLCEffects {
                 }
             });
         }
+    }
+
+    setupMobileGesture() {
+        // 移动端：连续滑动 ↑↑↓↓ 触发 Just Monika
+        const gestureSequence = ['up', 'up', 'down', 'down'];
+        let gestureIndex = 0;
+        let touchStartY = 0;
+        let lastGestureTime = 0;
+        const gestureTimeout = 2000; // 2秒内完成
+        const minSwipeDistance = 50; // 最小滑动距离
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const deltaY = touchStartY - touchEndY;
+            const now = Date.now();
+
+            // 超时重置
+            if (now - lastGestureTime > gestureTimeout && gestureIndex > 0) {
+                gestureIndex = 0;
+            }
+
+            if (Math.abs(deltaY) < minSwipeDistance) return; // 忽略小幅移动
+
+            const direction = deltaY > 0 ? 'up' : 'down';
+
+            if (direction === gestureSequence[gestureIndex]) {
+                gestureIndex++;
+                lastGestureTime = now;
+
+                if (gestureIndex === gestureSequence.length) {
+                    this.triggerMonikaSpecial();
+                    gestureIndex = 0;
+                }
+            } else {
+                // 检查是否匹配序列开头
+                gestureIndex = (direction === gestureSequence[0]) ? 1 : 0;
+                if (gestureIndex === 1) lastGestureTime = now;
+            }
+        }, { passive: true });
     }
 
     triggerMonikaSpecial() {

@@ -373,7 +373,9 @@ body::-webkit-scrollbar-thumb:hover {
     -webkit-backface-visibility: hidden;
 }
 
-.monika-pet:hover {
+.monika-pet:hover,
+.monika-pet:active,
+.monika-pet.touch-active {
     filter: drop-shadow(0 8px 20px rgba(255, 20, 147, 0.6))
             drop-shadow(0 0 30px rgba(255, 105, 180, 0.8));
     animation: petValentineGlow 2s ease-in-out infinite;
@@ -417,11 +419,104 @@ body::-webkit-scrollbar-thumb:hover {
     animation: petBounce 0.15s ease-out;
 }
 
-/* 响应式调整 - 桌宠 */
-@media (max-width: 768px) {
+/* =============================================
+   响应式调整 - 全设备适配
+   ============================================= */
+
+/* 极小屏手机 (< 480px) - iPhone SE等 */
+@media (max-width: 479px) {
+    .monika-pet {
+        width: 75px !important;
+        height: 94px !important;
+    }
+
+    .monika-dialogue-box {
+        max-width: 180px;
+        font-size: 11px;
+        padding: 8px 12px;
+    }
+
+    /* 极小屏隐藏更多爱心，只保留3个 */
+    .heart:nth-child(n+4) {
+        display: none;
+    }
+}
+
+/* 普通手机 (480px - 768px) */
+@media (min-width: 480px) and (max-width: 768px) {
     .monika-pet {
         width: 90px !important;
         height: 112px !important;
+    }
+
+    .monika-dialogue-box {
+        max-width: 220px;
+        font-size: 12px;
+        padding: 10px 14px;
+    }
+
+    /* 隐藏部分爱心，保留6个 */
+    .heart:nth-child(n+7) {
+        display: none;
+    }
+}
+
+/* 平板端 (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .monika-pet {
+        width: 110px !important;
+        height: 138px !important;
+    }
+
+    .monika-dialogue-box {
+        max-width: 260px;
+        font-size: 13px;
+        padding: 12px 16px;
+    }
+
+    /* 平板保留8个爱心 */
+    .heart:nth-child(n+9) {
+        display: none;
+    }
+}
+
+/* 小屏电脑 (1024px - 1440px) - 保持默认 */
+@media (min-width: 1024px) and (max-width: 1440px) {
+    .monika-pet {
+        width: 120px !important;
+        height: 150px !important;
+    }
+}
+
+/* 大屏电脑 (> 1440px) - 稍微放大 */
+@media (min-width: 1440px) {
+    .monika-pet {
+        width: 130px !important;
+        height: 163px !important;
+    }
+
+    .monika-dialogue-box {
+        max-width: 320px;
+        font-size: 15px;
+    }
+}
+
+/* 横屏模式优化 (小屏设备横屏) */
+@media (max-width: 768px) and (orientation: landscape) {
+    .monika-pet {
+        width: 70px !important;
+        height: 88px !important;
+    }
+
+    .monika-dialogue-box {
+        max-width: 200px;
+        font-size: 11px;
+        padding: 8px 12px;
+    }
+
+    /* 横屏时隐藏更多装饰元素 */
+    .heart:nth-child(n+5) {
+        display: none;
     }
 }
 

@@ -8,9 +8,44 @@ class ValentineEffects {
         this.container = document.getElementById('rosePetalsContainer');
         this.sparkleContainer = document.getElementById('sparkleParticles');
         this.petals = [];
-        this.maxPetals = 50;  // 增加到50片花瓣
-        this.maxSparkles = 30;  // 最多30个闪烁粒子
+
+        // 根据设备类型和屏幕尺寸自适应粒子数量
+        this.deviceType = this.detectDeviceType();
+        this.particleCounts = this.getParticleCounts();
+
+        this.maxPetals = this.particleCounts.petals;
+        this.maxSparkles = this.particleCounts.sparkles;
         this.init();
+    }
+
+    detectDeviceType() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const isLandscape = width > height;
+
+        // 极小屏手机
+        if (width < 480) return 'tiny-phone';
+        // 普通手机
+        if (width < 768) return isLandscape ? 'phone-landscape' : 'phone';
+        // 平板
+        if (width < 1024) return 'tablet';
+        // 小屏电脑
+        if (width < 1440) return 'small-desktop';
+        // 大屏电脑
+        return 'large-desktop';
+    }
+
+    getParticleCounts() {
+        const counts = {
+            'tiny-phone': { petals: 12, sparkles: 8, heartRain: 10 },
+            'phone': { petals: 20, sparkles: 12, heartRain: 15 },
+            'phone-landscape': { petals: 15, sparkles: 10, heartRain: 12 },
+            'tablet': { petals: 35, sparkles: 20, heartRain: 20 },
+            'small-desktop': { petals: 45, sparkles: 25, heartRain: 25 },
+            'large-desktop': { petals: 60, sparkles: 35, heartRain: 35 }
+        };
+
+        return counts[this.deviceType] || counts['small-desktop'];
     }
 
     init() {
@@ -33,14 +68,41 @@ class ValentineEffects {
         // 添加双击触发爱心雨彩蛋
         this.setupHeartRainEasterEgg();
 
+        // 窗口大小改变时重新计算粒子数量
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                this.handleResize();
+            }, 300);
+        });
+
         console.log('[ValentineEffects] 情人节特效已启动');
+        console.log(`[ValentineEffects] 设备类型: ${this.deviceType}`);
+        console.log(`[ValentineEffects] 粒子配置 - 花瓣:${this.maxPetals} 闪烁:${this.maxSparkles} 爱心雨:${this.particleCounts.heartRain}`);
         console.log('[ValentineEffects] 💝 彩蛋提示: 双击页面任意位置触发爱心雨!');
+    }
+
+    handleResize() {
+        const oldDeviceType = this.deviceType;
+        this.deviceType = this.detectDeviceType();
+
+        // 如果设备类型改变（如旋转屏幕），调整粒子数量
+        if (oldDeviceType !== this.deviceType) {
+            this.particleCounts = this.getParticleCounts();
+            this.maxPetals = this.particleCounts.petals;
+            this.maxSparkles = this.particleCounts.sparkles;
+
+            console.log(`[ValentineEffects] 设备类型改变: ${oldDeviceType} → ${this.deviceType}`);
+            console.log(`[ValentineEffects] 新粒子配置 - 花瓣:${this.maxPetals} 闪烁:${this.maxSparkles}`);
+        }
     }
 
     setupHeartRainEasterEgg() {
         let lastClickTime = 0;
         const doubleClickDelay = 400;
 
+        // 桌面端：click检测双击
         document.addEventListener('click', (e) => {
             const now = Date.now();
             if (now - lastClickTime < doubleClickDelay) {
@@ -48,6 +110,20 @@ class ValentineEffects {
                 this.createHeartRain(e.clientX, e.clientY);
             }
             lastClickTime = now;
+        });
+
+        // 移动端：touchend检测双击（更灵敏）
+        let lastTapTime = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            const touch = e.changedTouches[0];
+            if (!touch) return;
+            if (now - lastTapTime < doubleClickDelay) {
+                this.createHeartRain(touch.clientX, touch.clientY);
+                lastTapTime = 0; // 防止连续触发
+                return;
+            }
+            lastTapTime = now;
         });
 
         // 鼠标移动时偶尔生成小爱心轨迹
@@ -60,6 +136,19 @@ class ValentineEffects {
                 lastTrailTime = now;
             }
         });
+
+        // 移动端：触摸移动时生成爱心轨迹
+        let lastTouchTrailTime = 0;
+        document.addEventListener('touchmove', (e) => {
+            const now = Date.now();
+            const touch = e.touches[0];
+            if (!touch) return;
+            // 频率稍低，概率稍低，避免移动端性能问题
+            if (now - lastTouchTrailTime > 300 && Math.random() < 0.1) {
+                this.createMouseTrailHeart(touch.clientX, touch.clientY);
+                lastTouchTrailTime = now;
+            }
+        }, { passive: true });
     }
 
     createMouseTrailHeart(x, y) {
@@ -80,7 +169,7 @@ class ValentineEffects {
     }
 
     createHeartRain(centerX, centerY) {
-        const heartCount = 30;
+        const heartCount = this.particleCounts.heartRain;
         const colors = ['#ff1493', '#ff69b4', '#ff85c1', '#ffb6c1', '#ff1493'];
 
         for (let i = 0; i < heartCount; i++) {
