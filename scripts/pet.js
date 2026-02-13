@@ -67,7 +67,8 @@ class MonikaPet {
             touchStartX: 0,
             touchStartY: 0,
             touchStartTime: 0,
-            dragThreshold: 20,  // 移动超过20像素才算拖拽
+            dragThreshold: 15,  // 降低拖拽阈值，移动超过15像素才算拖拽
+            tapMaxDuration: 500, // 增加轻触的最大时长到500ms
             isInHeadPatMode: false  // 是否在摸头模式
         };
 
@@ -493,7 +494,7 @@ class MonikaPet {
         // 添加触摸活跃状态（移动端替代hover）
         this.element.classList.add('touch-active');
 
-        // 记录触摸起始位置，但不立即开始拖拽
+        // 记录触摸起始位置和时间
         this.drag.touchStartX = touch.clientX;
         this.drag.touchStartY = touch.clientY;
         this.drag.touchStartTime = Date.now();
@@ -504,11 +505,13 @@ class MonikaPet {
         const headHeight = rect.height * 0.3;
 
         if (relativeY < headHeight && relativeY >= 0) {
-            // 在头部区域，先不触发拖拽，等待判断是摸头还是拖拽
+            // 在头部区域，先不触发拖拽，等待判断是摸头还是拖拽还是轻触
+            console.log('[MonikaPet] 触摸开始于头部区域，进入头部模式');
             this.drag.isInHeadPatMode = true;
         } else {
-            // 不在头部，直接开始拖拽
-            this.startDrag(touch.clientX, touch.clientY);
+            // 不在头部，但也不立即开始拖拽，先等待判断
+            console.log('[MonikaPet] 触摸开始于非头部区域，等待判断');
+            this.drag.isInHeadPatMode = false;
         }
     }
 
@@ -696,31 +699,31 @@ class MonikaPet {
     }
 
     onTouchMove(e) {
-        if (!this.drag.isDragging && !this.drag.isInHeadPatMode) return;
-
         const touch = e.touches[0];
 
-        // 如果还在判断阶段（头部摸摸模式）
-        if (this.drag.isInHeadPatMode && !this.drag.isDragging) {
-            const deltaX = touch.clientX - this.drag.touchStartX;
-            const deltaY = touch.clientY - this.drag.touchStartY;
-            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-            // 如果移动距离超过阈值，转为拖拽模式
-            if (distance > this.drag.dragThreshold) {
-                this.drag.isInHeadPatMode = false;
-                this.startDrag(touch.clientX, touch.clientY);
-                e.preventDefault();
-            }
-            // 否则不阻止默认行为，让 onPetTouchMove 处理摸头
-            return;
-        }
-
-        // 正常拖拽模式
+        // 如果已经在拖拽，继续拖拽
         if (this.drag.isDragging) {
             e.preventDefault();
             this.updateDrag(touch.clientX, touch.clientY);
+            return;
         }
+
+        // 如果还没开始拖拽，检查是否应该开始
+        const deltaX = touch.clientX - this.drag.touchStartX;
+        const deltaY = touch.clientY - this.drag.touchStartY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        // 如果移动距离超过阈值，开始拖拽
+        if (distance > this.drag.dragThreshold) {
+            console.log('[MonikaPet] 移动距离超过阈值，开始拖拽');
+            this.drag.isInHeadPatMode = false;
+            this.startDrag(touch.clientX, touch.clientY);
+            e.preventDefault();
+            return;
+        }
+
+        // 如果在头部区域且移动距离较小，让 onPetTouchMove 处理摸头
+        // 不阻止默认行为
     }
 
     updateDrag(clientX, clientY) {
@@ -761,6 +764,7 @@ class MonikaPet {
 
     onTouchEnd(e) {
         const wasDragging = this.drag.isDragging;
+        const wasInHeadPatMode = this.drag.isInHeadPatMode;
 
         if (this.drag.isDragging) {
             this.endDrag();
@@ -769,16 +773,31 @@ class MonikaPet {
         // 移除触摸活跃状态
         this.element.classList.remove('touch-active');
 
-        // 检测是否为轻触（tap）：没有拖拽，触摸时间短，移动距离小
-        if (!wasDragging) {
+        // 检测是否为轻触（tap）：没有拖拽，没有摸头，触摸时间短，移动距离小
+        if (!wasDragging && !wasInHeadPatMode) {
+            const touchDuration = Date.now() - this.drag.touchStartTime;
+            const touch = e.changedTouches[0];
+            if (touch && touchDuration < this.drag.tapMaxDuration) {
+                const deltaX = touch.clientX - this.drag.touchStartX;
+                const deltaY = touch.clientY - this.drag.touchStartY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                // 移动距离小于拖拽阈值，视为点击
+                if (distance < this.drag.dragThreshold) {
+                    console.log('[MonikaPet] 检测到轻触事件，触发对话框');
+                    this.handleTap(touch.clientX, touch.clientY);
+                }
+            }
+        } else if (wasInHeadPatMode && !wasDragging) {
+            // 如果是在头部区域的短时间轻触（没有拖拽），也触发对话框
             const touchDuration = Date.now() - this.drag.touchStartTime;
             const touch = e.changedTouches[0];
             if (touch && touchDuration < 300) {
                 const deltaX = touch.clientX - this.drag.touchStartX;
                 const deltaY = touch.clientY - this.drag.touchStartY;
                 const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                // 移动距离小于拖拽阈值，视为点击
-                if (distance < this.drag.dragThreshold) {
+                // 如果移动距离很小（没有触发摸头效果），也触发对话框
+                if (distance < 10) {
+                    console.log('[MonikaPet] 头部轻触，触发对话框');
                     this.handleTap(touch.clientX, touch.clientY);
                 }
             }
@@ -797,8 +816,12 @@ class MonikaPet {
     // 处理轻触事件（移动端替代click）
     handleTap(clientX, clientY) {
         const now = Date.now();
-        if (now - this.valentine.lastDialogueTime < this.valentine.dialogueCooldown) return;
+        if (now - this.valentine.lastDialogueTime < this.valentine.dialogueCooldown) {
+            console.log('[MonikaPet] 对话框冷却中，跳过');
+            return;
+        }
 
+        console.log('[MonikaPet] 触发对话框和爱心效果');
         this.valentine.lastDialogueTime = now;
         this.showValentineDialogue();
         this.createHeartParticles(clientX, clientY);

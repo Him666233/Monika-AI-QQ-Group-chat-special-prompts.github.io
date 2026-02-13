@@ -434,6 +434,15 @@ body::-webkit-scrollbar-thumb:hover {
         max-width: 180px;
         font-size: 11px;
         padding: 8px 12px;
+        line-height: 1.5;
+    }
+
+    .valentine-heart-particle {
+        font-size: 20px;
+    }
+
+    .heart-rain {
+        font-size: 18px;
     }
 
     /* 极小屏隐藏更多爱心，只保留3个 */
@@ -453,6 +462,15 @@ body::-webkit-scrollbar-thumb:hover {
         max-width: 220px;
         font-size: 12px;
         padding: 10px 14px;
+        line-height: 1.5;
+    }
+
+    .valentine-heart-particle {
+        font-size: 22px;
+    }
+
+    .heart-rain {
+        font-size: 20px;
     }
 
     /* 隐藏部分爱心，保留6个 */

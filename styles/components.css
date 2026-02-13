@@ -453,11 +453,20 @@
     font-weight: 600;
     font-size: 16px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    flex-wrap: wrap;
 }
 
 .banner-heart {
     font-size: 24px;
     animation: heartBeat 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.banner-text {
+    text-align: center;
+    flex: 1 1 auto;
+    min-width: 0;
+    word-break: break-word;
 }
 
 @keyframes heartBeat {
@@ -484,6 +493,11 @@
     .banner-content {
         font-size: 14px;
         gap: 10px;
+    }
+
+    .banner-text {
+        font-size: 13px;
+        padding: 0 5px;
     }
 
     .banner-heart {
@@ -568,6 +582,13 @@
     .banner-content {
         font-size: 12px;
         gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .banner-text {
+        font-size: 11px;
+        padding: 0 3px;
+        line-height: 1.4;
     }
 
     .banner-heart {
@@ -735,6 +756,19 @@
 
     .banner-content {
         font-size: 12px;
+        gap: 8px;
+        flex-wrap: nowrap;
+    }
+
+    .banner-text {
+        font-size: 11px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .banner-heart {
+        font-size: 16px;
     }
 }
 

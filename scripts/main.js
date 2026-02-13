@@ -37,22 +37,40 @@ function initNavigation() {
     const navToggle = document.getElementById('navToggle');
     const navMenu = document.getElementById('navMenu');
     const navbar = document.querySelector('.navbar');
-    
+
     // 移动端菜单切换
-    if (navToggle) {
-        navToggle.addEventListener('click', function() {
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active');
+            console.log('Menu toggled:', navMenu.classList.contains('active'));
         });
     }
-    
+
     // 导航链接点击后关闭菜单
     const navLinks = document.querySelectorAll('.nav-menu a');
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
             navMenu.classList.remove('active');
+            if (navToggle) {
+                navToggle.classList.remove('active');
+            }
         });
     });
-    
+
+    // 点击菜单外部关闭菜单
+    document.addEventListener('click', function(e) {
+        if (navMenu && navToggle &&
+            navMenu.classList.contains('active') &&
+            !navMenu.contains(e.target) &&
+            !navToggle.contains(e.target)) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+        }
+    });
+
     // 滚动时添加导航栏阴影
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
