@@ -69,7 +69,8 @@ class MonikaPet {
             touchStartTime: 0,
             dragThreshold: 15,  // 降低拖拽阈值，移动超过15像素才算拖拽
             tapMaxDuration: 500, // 增加轻触的最大时长到500ms
-            isInHeadPatMode: false  // 是否在摸头模式
+            isInHeadPatMode: false,  // 是否在摸头模式
+            touchStartedOnPet: false  // 触摸是否开始于桌宠元素上
         };
 
         this.bounds = {
@@ -324,7 +325,7 @@ class MonikaPet {
             z-index: 9999;
             user-select: none;
             -webkit-user-select: none;
-            touch-action: none;
+            touch-action: manipulation;
             transform-origin: center bottom;
             will-change: transform;
         `;
@@ -490,6 +491,9 @@ class MonikaPet {
     onTouchStart(e) {
         e.preventDefault();
         const touch = e.touches[0];
+
+        // 标记触摸开始于桌宠元素上
+        this.drag.touchStartedOnPet = true;
 
         // 添加触摸活跃状态（移动端替代hover）
         this.element.classList.add('touch-active');
@@ -699,6 +703,11 @@ class MonikaPet {
     }
 
     onTouchMove(e) {
+        // 只有当触摸开始于桌宠元素上时,才处理触摸移动
+        if (!this.drag.touchStartedOnPet) {
+            return; // 允许页面正常滚动
+        }
+
         const touch = e.touches[0];
 
         // 如果已经在拖拽，继续拖拽
@@ -805,6 +814,7 @@ class MonikaPet {
 
         // 重置触摸相关状态
         this.drag.isInHeadPatMode = false;
+        this.drag.touchStartedOnPet = false;
 
         // 触摸结束，重置摸头状态
         const pat = this.valentine.headPat;
