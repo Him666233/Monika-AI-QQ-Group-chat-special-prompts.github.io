@@ -48,7 +48,7 @@
     }
 }
 
-@keyframes floatHeart {
+@keyframes floatLantern {
     0% {
         opacity: 0;
         transform: translateY(100vh) rotate(0deg) scale(0.5);
@@ -65,8 +65,8 @@
     }
 }
 
-/* 浮动爱心 - 情人节增强版 */
-.floating-hearts {
+/* 浮动灯笼 - 春节版 */
+.floating-lanterns {
     position: fixed;
     top: 0;
     left: 0;
@@ -76,91 +76,91 @@
     z-index: 1;
 }
 
-.heart {
+.lantern {
     position: absolute;
     width: 30px;
     height: 30px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff1493'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") no-repeat center center;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dc143c'%3E%3Cellipse cx='12' cy='12' rx='8' ry='10' fill='%23dc143c'/%3E%3Crect x='10' y='2' width='4' height='3' fill='%23ffd700'/%3E%3Crect x='10' y='19' width='4' height='3' fill='%23ffd700'/%3E%3Cline x1='6' y1='12' x2='18' y2='12' stroke='%23ffd700' stroke-width='1'/%3E%3C/svg%3E") no-repeat center center;
     background-size: contain;
     opacity: 0;
-    filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
+    filter: drop-shadow(0 0 8px rgba(220, 20, 60, 0.6));
 }
 
-.heart:nth-child(1) {
+.lantern:nth-child(1) {
     left: 10%;
-    animation: floatHeart 20s linear infinite;
+    animation: floatLantern 20s linear infinite;
     animation-delay: 0s;
     width: 24px;
     height: 24px;
 }
 
-.heart:nth-child(2) {
+.lantern:nth-child(2) {
     left: 30%;
-    animation: floatHeart 25s linear infinite;
+    animation: floatLantern 25s linear infinite;
     animation-delay: 5s;
     width: 38px;
     height: 38px;
 }
 
-.heart:nth-child(3) {
+.lantern:nth-child(3) {
     left: 50%;
-    animation: floatHeart 22s linear infinite;
+    animation: floatLantern 22s linear infinite;
     animation-delay: 10s;
     width: 32px;
     height: 32px;
 }
 
-.heart:nth-child(4) {
+.lantern:nth-child(4) {
     left: 70%;
-    animation: floatHeart 28s linear infinite;
+    animation: floatLantern 28s linear infinite;
     animation-delay: 15s;
     width: 28px;
     height: 28px;
 }
 
-.heart:nth-child(5) {
+.lantern:nth-child(5) {
     left: 90%;
-    animation: floatHeart 24s linear infinite;
+    animation: floatLantern 24s linear infinite;
     animation-delay: 20s;
     width: 34px;
     height: 34px;
 }
 
-.heart:nth-child(6) {
+.lantern:nth-child(6) {
     left: 20%;
-    animation: floatHeart 18s linear infinite;
+    animation: floatLantern 18s linear infinite;
     animation-delay: 3s;
     width: 26px;
     height: 26px;
 }
 
-.heart:nth-child(7) {
+.lantern:nth-child(7) {
     left: 40%;
-    animation: floatHeart 26s linear infinite;
+    animation: floatLantern 26s linear infinite;
     animation-delay: 8s;
     width: 30px;
     height: 30px;
 }
 
-.heart:nth-child(8) {
+.lantern:nth-child(8) {
     left: 60%;
-    animation: floatHeart 21s linear infinite;
+    animation: floatLantern 21s linear infinite;
     animation-delay: 12s;
     width: 36px;
     height: 36px;
 }
 
-.heart:nth-child(9) {
+.lantern:nth-child(9) {
     left: 80%;
-    animation: floatHeart 23s linear infinite;
+    animation: floatLantern 23s linear infinite;
     animation-delay: 16s;
     width: 28px;
     height: 28px;
 }
 
-.heart:nth-child(10) {
+.lantern:nth-child(10) {
     left: 15%;
-    animation: floatHeart 27s linear infinite;
+    animation: floatLantern 27s linear infinite;
     animation-delay: 22s;
     width: 32px;
     height: 32px;
@@ -366,7 +366,7 @@ body::-webkit-scrollbar-thumb:hover {
     user-select: none;
     -webkit-user-select: none;
     touch-action: none;
-    filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.3));
+    filter: drop-shadow(0 4px 8px rgba(220, 20, 60, 0.3));
     transition: filter 0.2s ease;
     will-change: transform;
     backface-visibility: hidden;
@@ -376,19 +376,19 @@ body::-webkit-scrollbar-thumb:hover {
 .monika-pet:hover,
 .monika-pet:active,
 .monika-pet.touch-active {
-    filter: drop-shadow(0 8px 20px rgba(255, 20, 147, 0.6))
-            drop-shadow(0 0 30px rgba(255, 105, 180, 0.8));
-    animation: petValentineGlow 2s ease-in-out infinite;
+    filter: drop-shadow(0 8px 20px rgba(220, 20, 60, 0.6))
+            drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
+    animation: petNewYearGlow 2s ease-in-out infinite;
 }
 
-@keyframes petValentineGlow {
+@keyframes petNewYearGlow {
     0%, 100% {
-        filter: drop-shadow(0 8px 20px rgba(255, 20, 147, 0.6))
-                drop-shadow(0 0 30px rgba(255, 105, 180, 0.8));
+        filter: drop-shadow(0 8px 20px rgba(220, 20, 60, 0.6))
+                drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
     }
     50% {
-        filter: drop-shadow(0 10px 25px rgba(255, 20, 147, 0.8))
-                drop-shadow(0 0 40px rgba(255, 105, 180, 1));
+        filter: drop-shadow(0 10px 25px rgba(220, 20, 60, 0.8))
+                drop-shadow(0 0 40px rgba(255, 215, 0, 1));
     }
 }
 
@@ -437,16 +437,17 @@ body::-webkit-scrollbar-thumb:hover {
         line-height: 1.5;
     }
 
-    .valentine-heart-particle {
+    .newyear-particle {
         font-size: 20px;
     }
 
-    .heart-rain {
+    .firework-particle,
+    .red-envelope-rain {
         font-size: 18px;
     }
 
-    /* 极小屏隐藏更多爱心，只保留3个 */
-    .heart:nth-child(n+4) {
+    /* 极小屏隐藏更多灯笼，只保留3个 */
+    .lantern:nth-child(n+4) {
         display: none;
     }
 }
@@ -465,16 +466,17 @@ body::-webkit-scrollbar-thumb:hover {
         line-height: 1.5;
     }
 
-    .valentine-heart-particle {
+    .newyear-particle {
         font-size: 22px;
     }
 
-    .heart-rain {
+    .firework-particle,
+    .red-envelope-rain {
         font-size: 20px;
     }
 
-    /* 隐藏部分爱心，保留6个 */
-    .heart:nth-child(n+7) {
+    /* 隐藏部分灯笼，保留6个 */
+    .lantern:nth-child(n+7) {
         display: none;
     }
 }
@@ -492,8 +494,8 @@ body::-webkit-scrollbar-thumb:hover {
         padding: 12px 16px;
     }
 
-    /* 平板保留8个爱心 */
-    .heart:nth-child(n+9) {
+    /* 平板保留8个灯笼 */
+    .lantern:nth-child(n+9) {
         display: none;
     }
 }
@@ -533,19 +535,19 @@ body::-webkit-scrollbar-thumb:hover {
     }
 
     /* 横屏时隐藏更多装饰元素 */
-    .heart:nth-child(n+5) {
+    .lantern:nth-child(n+5) {
         display: none;
     }
 }
 
 /* =============================================
-   情人节特效样式
+   春节特效样式
    ============================================= */
 
 /* 莫妮卡对话框 */
 .monika-dialogue-box {
     position: fixed;
-    background: linear-gradient(135deg, rgba(255, 182, 193, 0.98) 0%, rgba(255, 192, 203, 0.98) 100%);
+    background: linear-gradient(135deg, rgba(220, 20, 60, 0.98) 0%, rgba(255, 215, 0, 0.98) 100%);
     color: #fff;
     padding: 15px 20px;
     border-radius: 20px;
@@ -553,12 +555,12 @@ body::-webkit-scrollbar-thumb:hover {
     font-family: 'Microsoft YaHei', sans-serif;
     font-size: 14px;
     line-height: 1.6;
-    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5), 0 0 0 3px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(220, 20, 60, 0.5), 0 0 0 3px rgba(255, 215, 0, 0.3);
     z-index: 10001;
     transform: translate(-50%, -100%);
     animation: dialogueFadeIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     pointer-events: none;
-    border: 2px solid rgba(255, 255, 255, 0.6);
+    border: 2px solid rgba(255, 215, 0, 0.6);
 }
 
 .dialogue-arrow {
@@ -570,8 +572,8 @@ body::-webkit-scrollbar-thumb:hover {
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-top: 10px solid rgba(255, 192, 203, 0.98);
-    filter: drop-shadow(0 3px 5px rgba(255, 105, 180, 0.3));
+    border-top: 10px solid rgba(255, 215, 0, 0.98);
+    filter: drop-shadow(0 3px 5px rgba(220, 20, 60, 0.3));
 }
 
 .dialogue-content {
@@ -603,19 +605,18 @@ body::-webkit-scrollbar-thumb:hover {
     }
 }
 
-/* 爱心粒子效果 */
-.valentine-heart-particle {
+/* 春节粒子效果 */
+.newyear-particle {
     position: fixed;
     font-size: 24px;
-    color: #ff69b4;
     pointer-events: none;
     z-index: 10000;
-    animation: heartParticleFloat 1.2s ease-out forwards;
-    text-shadow: 0 0 10px rgba(255, 105, 180, 0.8),
-                 0 0 20px rgba(255, 105, 180, 0.5);
+    animation: particleFloat 1.2s ease-out forwards;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8),
+                 0 0 20px rgba(255, 215, 0, 0.5);
 }
 
-@keyframes heartParticleFloat {
+@keyframes particleFloat {
     0% {
         opacity: 1;
         transform: translate(0, 0) rotate(0deg) scale(0.5);
@@ -632,8 +633,8 @@ body::-webkit-scrollbar-thumb:hover {
     }
 }
 
-/* 飘落的玫瑰花瓣 */
-.rose-petals-container {
+/* 飘落的红包 */
+.red-envelopes-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -644,17 +645,17 @@ body::-webkit-scrollbar-thumb:hover {
     overflow: hidden;
 }
 
-.rose-petal {
+.red-envelope {
     position: absolute;
     width: 12px;
-    height: 12px;
-    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
-    border-radius: 50% 0 50% 50%;
+    height: 16px;
+    background: linear-gradient(135deg, #dc143c 0%, #b8001f 100%);
+    border-radius: 2px;
     opacity: 0;
-    animation: petalFall linear infinite;
+    animation: envelopeFall linear infinite;
 }
 
-@keyframes petalFall {
+@keyframes envelopeFall {
     0% {
         opacity: 0;
         transform: translateY(-50px) translateX(0) rotate(0deg);
@@ -667,23 +668,23 @@ body::-webkit-scrollbar-thumb:hover {
     }
     100% {
         opacity: 0;
-        transform: translateY(100vh) translateX(var(--petal-x-offset, 100px)) rotate(720deg);
+        transform: translateY(100vh) translateX(var(--envelope-x-offset, 100px)) rotate(360deg);
     }
 }
 
-/* 玫瑰爆发花瓣 */
-.rose-burst-petal {
+/* 红包爆发效果 */
+.red-envelope-burst {
     position: fixed;
     width: 10px;
-    height: 10px;
-    background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
-    border-radius: 50% 0 50% 50%;
+    height: 14px;
+    background: linear-gradient(135deg, #dc143c 0%, #ffd700 100%);
+    border-radius: 2px;
     pointer-events: none;
     z-index: 10000;
-    animation: roseBurst 1.5s ease-out forwards;
+    animation: envelopeBurst 1.5s ease-out forwards;
 }
 
-@keyframes roseBurst {
+@keyframes envelopeBurst {
     0% {
         opacity: 1;
         transform: translate(0, 0) rotate(0deg) scale(1);
@@ -694,19 +695,19 @@ body::-webkit-scrollbar-thumb:hover {
     }
 }
 
-/* 爱心雨彩蛋效果 */
-.heart-rain {
+/* 烟花雨彩蛋效果 */
+.firework-rain {
     position: fixed;
     pointer-events: none;
     z-index: 10002;
     font-weight: bold;
-    animation: heartRainFall 2s ease-out forwards;
+    animation: fireworkRainFall 2s ease-out forwards;
     text-shadow: 0 0 10px currentColor,
                  0 0 20px currentColor,
                  0 0 30px currentColor;
 }
 
-@keyframes heartRainFall {
+@keyframes fireworkRainFall {
     0% {
         opacity: 1;
         transform: translateY(0) rotate(0deg) scale(0.3);
@@ -721,8 +722,8 @@ body::-webkit-scrollbar-thumb:hover {
     }
 }
 
-/* 鼠标轨迹爱心 */
-.mouse-trail-heart {
+/* 鼠标轨迹福字/灯笼 */
+.mouse-trail-blessing {
     position: fixed;
     pointer-events: none;
     z-index: 9998;
@@ -743,8 +744,8 @@ body::-webkit-scrollbar-thumb:hover {
     }
 }
 
-/* 摸头爱心效果 */
-.head-pat-heart {
+/* 摸头红包效果 */
+.head-pat-blessing {
     position: fixed;
     pointer-events: none;
     z-index: 10000;
@@ -785,11 +786,11 @@ body::-webkit-scrollbar-thumb:hover {
     position: absolute;
     width: 4px;
     height: 4px;
-    background: radial-gradient(circle, #fff 0%, #ff69b4 50%, transparent 100%);
+    background: radial-gradient(circle, #fff 0%, #ffd700 50%, transparent 100%);
     border-radius: 50%;
     opacity: 0;
     animation: sparkleShine 3s ease-in-out infinite;
-    box-shadow: 0 0 6px #ff69b4, 0 0 12px #ff1493;
+    box-shadow: 0 0 6px #ffd700, 0 0 12px #dc143c;
 }
 
 @keyframes sparkleShine {

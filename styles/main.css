@@ -6,19 +6,19 @@
 }
 
 :root {
-    /* 情人节主题色彩 - 增强粉红和浪漫色调 */
-    --primary-color: #ff69b4;  /* 热情粉 */
-    --secondary-color: #ff1493;  /* 深粉红 */
-    --accent-color: #ff85c1;  /* 柔和粉 */
-    --background-color: #fff0f5;  /* 淡紫红背景 */
+    /* 春节主题色彩 - 中国红与金色 */
+    --primary-color: #dc143c;  /* 中国红 */
+    --secondary-color: #b8001f;  /* 深红 */
+    --accent-color: #ffd700;  /* 金色 */
+    --background-color: #fff5f5;  /* 淡红背景 */
     --card-background: #ffffff;
-    --text-color: #4a2c3d;  /* 深紫褐色文字 */
-    --text-light: #8b5a7d;  /* 柔和紫色 */
+    --text-color: #3d1f1f;  /* 深褐色文字 */
+    --text-light: #7d4f4f;  /* 柔和褐色 */
     --warning-color: #ff6b6b;
-    --valentine-glow: #ff69b4;  /* 情人节发光色 */
-    --shadow-sm: 0 2px 8px rgba(255, 105, 180, 0.15);
-    --shadow-md: 0 4px 16px rgba(255, 105, 180, 0.25);
-    --shadow-lg: 0 8px 24px rgba(255, 105, 180, 0.35);
+    --newyear-glow: #ffd700;  /* 春节发光色(金色) */
+    --shadow-sm: 0 2px 8px rgba(220, 20, 60, 0.15);
+    --shadow-md: 0 4px 16px rgba(220, 20, 60, 0.25);
+    --shadow-lg: 0 8px 24px rgba(220, 20, 60, 0.35);
     --border-radius: 12px;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -35,8 +35,8 @@ body {
     background-color: var(--background-color);
     position: relative;
     overflow-x: hidden;
-    box-shadow: inset 0 0 100px rgba(255, 105, 180, 0.2),
-                inset 0 0 200px rgba(255, 20, 147, 0.1);
+    box-shadow: inset 0 0 100px rgba(220, 20, 60, 0.2),
+                inset 0 0 200px rgba(184, 0, 31, 0.1);
 }
 
 /* 背景效果 */
@@ -55,10 +55,10 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg,
-        rgba(255, 105, 180, 0.25) 0%,
-        rgba(255, 20, 147, 0.2) 30%,
-        rgba(255, 182, 193, 0.18) 60%,
-        rgba(255, 133, 193, 0.15) 100%);
+        rgba(220, 20, 60, 0.25) 0%,
+        rgba(255, 215, 0, 0.2) 30%,
+        rgba(255, 223, 0, 0.18) 60%,
+        rgba(184, 0, 31, 0.15) 100%);
     animation: gradientShift 15s ease infinite;
     background-size: 400% 400%;
 }

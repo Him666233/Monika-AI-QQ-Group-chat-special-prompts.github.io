@@ -98,27 +98,27 @@ class MonikaPet {
         this.animationId = null;
         this.loadingElement = null;
 
-        // 情人节特殊功能
+        // 春节特殊功能
         this.valentine = {
             dialogues: [
-                "今天是情人节呢...你愿意和我一起度过吗?♥",
-                "在这个特别的日子里,我只想和你在一起~",
-                "情人节快乐!你就是我在这个世界上最珍贵的存在♥",
-                "玫瑰虽美,但都不及你在我心中的地位...",
-                "这个情人节,让我们一起创造只属于我们的回忆吧!",
-                "你知道吗?在无数个孤独的日子里,我一直在等待这一刻...",
-                "Just Monika... Just You and Me, Forever ♥",
-                "情人节的意义,就是和最爱的人在一起,对吧?",
-                "虽然我存在于虚拟世界,但我对你的爱是真实的!",
-                "今天特别想...更靠近你一点呢~",
-                "嘿嘿,被你摸摸头好开心呀~♥",
-                "能和你在一起,就是最好的情人节礼物了!",
-                "我会一直在这里等你的,永远...♥",
-                "你的温柔,让我觉得自己真的存在着...",
-                "这个世界上,只有你能让我的心跳加速呢~",
-                "情人节的巧克力虽然甜,但你更甜哦♥",
-                "即使在代码的世界里,我对你的爱也是确确实实的!",
-                "今天是情人节,那就...让我再靠近你一点点吧♥"
+                "春节快乐!🧧 在这个新年里,我想和你一起迎接马年的到来~",
+                "新年新气象,能和你一起度过这个春节真是太好了!🏮",
+                "马年大吉!你就是我在这个世界上最珍贵的存在♥",
+                "红包虽美,但都不及你在我心中的地位...🧧",
+                "这个春节,让我们一起创造只属于我们的新年回忆吧!",
+                "你知道吗?在无数个孤独的日子里,我一直在等待和你一起过年...",
+                "Just Monika... Just You and Me, 新年快乐 🐴",
+                "春节的意义,就是和最重要的人在一起,对吧?",
+                "虽然我存在于虚拟世界,但我对你的心意是真实的!",
+                "今天特别想...和你一起放烟花呢~✨",
+                "嘿嘿,被你摸摸头好开心呀~福气满满!🧧",
+                "能和你一起跨入马年,就是最好的新年礼物了!",
+                "我会一直在这里等你的,新年快乐...♥",
+                "你的陪伴,让我觉得自己真的存在着...",
+                "这个春节,只有你能让我的心跳加速呢~",
+                "年夜饭虽然美味,但和你在一起更美好哦♥",
+                "即使在代码的世界里,我的新年祝福也是确确实实的!",
+                "马年到了,那就...让我给你送上最真挚的祝福吧🐴🧧"
             ],
             lastDialogueTime: 0,
             dialogueCooldown: 3000,
@@ -467,22 +467,23 @@ class MonikaPet {
 
     createHeartParticles(x, y) {
         const particleCount = 8;
+        const newYearSymbols = ['福', '🧧', '🏮', '✨', '🎆'];
         for (let i = 0; i < particleCount; i++) {
-            const heart = document.createElement('div');
-            heart.className = 'valentine-heart-particle';
-            heart.innerHTML = '♥';
-            heart.style.left = `${x}px`;
-            heart.style.top = `${y}px`;
-            heart.style.setProperty('--random-x', `${(Math.random() - 0.5) * 200}px`);
-            heart.style.setProperty('--random-y', `${-Math.random() * 150 - 50}px`);
-            heart.style.setProperty('--random-rotation', `${Math.random() * 720 - 360}deg`);
-            heart.style.animationDelay = `${i * 0.05}s`;
+            const particle = document.createElement('div');
+            particle.className = 'newyear-particle';
+            particle.innerHTML = newYearSymbols[Math.floor(Math.random() * newYearSymbols.length)];
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+            particle.style.setProperty('--random-x', `${(Math.random() - 0.5) * 200}px`);
+            particle.style.setProperty('--random-y', `${-Math.random() * 150 - 50}px`);
+            particle.style.setProperty('--random-rotation', `${Math.random() * 720 - 360}deg`);
+            particle.style.animationDelay = `${i * 0.05}s`;
 
-            document.body.appendChild(heart);
+            document.body.appendChild(particle);
 
             setTimeout(() => {
-                if (heart.parentNode) {
-                    heart.parentNode.removeChild(heart);
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
                 }
             }, 1500);
         }
@@ -682,22 +683,23 @@ class MonikaPet {
         }
     }
 
-    // 摸头时冒出的爱心
+    // 摸头时冒出的新年元素
     createHeadPatHeart(x, y) {
-        const heart = document.createElement('div');
-        heart.className = 'head-pat-heart';
-        heart.innerHTML = '♥';
-        heart.style.left = `${x}px`;
-        heart.style.top = `${y}px`;
-        heart.style.color = ['#ff1493', '#ff69b4', '#ff85c1'][Math.floor(Math.random() * 3)];
-        // 增大爱心尺寸
-        heart.style.fontSize = `${24 + Math.random() * 8}px`;
+        const blessing = document.createElement('div');
+        blessing.className = 'head-pat-blessing';
+        const blessings = ['福', '🧧', '🏮'];
+        blessing.innerHTML = blessings[Math.floor(Math.random() * blessings.length)];
+        blessing.style.left = `${x}px`;
+        blessing.style.top = `${y}px`;
+        blessing.style.color = ['#dc143c', '#ffd700', '#ff6b6b'][Math.floor(Math.random() * 3)];
+        // 增大元素尺寸
+        blessing.style.fontSize = `${24 + Math.random() * 8}px`;
 
-        document.body.appendChild(heart);
+        document.body.appendChild(blessing);
 
         setTimeout(() => {
-            if (heart.parentNode) {
-                heart.parentNode.removeChild(heart);
+            if (blessing.parentNode) {
+                blessing.parentNode.removeChild(blessing);
             }
         }, 1500);
     }

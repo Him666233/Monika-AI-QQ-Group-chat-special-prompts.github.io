@@ -1,12 +1,12 @@
-/* Hero 区域 - 情人节增强版 */
+/* Hero 区域 - 春节版 */
 .hero-section {
     text-align: center;
     padding: 4rem 2rem;
-    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 50%, #ff85c1 100%);
+    background: linear-gradient(135deg, #dc143c 0%, #b8001f 50%, #ffd700 100%);
     color: white;
     border-radius: var(--border-radius);
     margin-bottom: 2rem;
-    box-shadow: 0 8px 32px rgba(255, 105, 180, 0.4), 0 0 60px rgba(255, 20, 147, 0.3);
+    box-shadow: 0 8px 32px rgba(220, 20, 60, 0.4), 0 0 60px rgba(255, 215, 0, 0.3);
     position: relative;
     overflow: hidden;
     animation: heroGlow 3s ease-in-out infinite alternate;
@@ -14,10 +14,10 @@
 
 @keyframes heroGlow {
     from {
-        box-shadow: 0 8px 32px rgba(255, 105, 180, 0.4), 0 0 60px rgba(255, 20, 147, 0.3);
+        box-shadow: 0 8px 32px rgba(220, 20, 60, 0.4), 0 0 60px rgba(255, 215, 0, 0.3);
     }
     to {
-        box-shadow: 0 8px 40px rgba(255, 105, 180, 0.6), 0 0 80px rgba(255, 20, 147, 0.5);
+        box-shadow: 0 8px 40px rgba(220, 20, 60, 0.6), 0 0 80px rgba(255, 215, 0, 0.5);
     }
 }
 
@@ -76,26 +76,26 @@
 .btn-primary {
     background: white;
     color: var(--secondary-color);
-    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3), 0 0 20px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3), 0 0 20px rgba(255, 215, 0, 0.5);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 6px 25px rgba(255, 105, 180, 0.5), 0 0 30px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 6px 25px rgba(220, 20, 60, 0.5), 0 0 30px rgba(255, 215, 0, 0.8);
     animation: buttonPulse 1s ease-in-out infinite;
 }
 
 .btn-primary:active {
     transform: translateY(0) scale(0.97);
-    box-shadow: 0 2px 10px rgba(255, 105, 180, 0.4);
+    box-shadow: 0 2px 10px rgba(220, 20, 60, 0.4);
 }
 
 @keyframes buttonPulse {
     0%, 100% {
-        box-shadow: 0 6px 25px rgba(255, 105, 180, 0.5), 0 0 30px rgba(255, 255, 255, 0.8);
+        box-shadow: 0 6px 25px rgba(220, 20, 60, 0.5), 0 0 30px rgba(255, 215, 0, 0.8);
     }
     50% {
-        box-shadow: 0 8px 30px rgba(255, 105, 180, 0.7), 0 0 40px rgba(255, 255, 255, 1);
+        box-shadow: 0 8px 30px rgba(220, 20, 60, 0.7), 0 0 40px rgba(255, 215, 0, 1);
     }
 }
 
@@ -117,7 +117,7 @@
     transform: translateY(0);
 }
 
-/* 卡片样式 - 情人节增强版 */
+/* 卡片样式 - 春节版 */
 .content-card {
     background: var(--card-background);
     padding: 2.5rem;
@@ -125,18 +125,18 @@
     margin-bottom: 2rem;
     box-shadow: var(--shadow-md);
     transition: var(--transition);
-    border: 2px solid rgba(255, 105, 180, 0.1);
+    border: 2px solid rgba(220, 20, 60, 0.1);
 }
 
 .content-card:hover {
-    box-shadow: 0 8px 32px rgba(255, 105, 180, 0.3), 0 0 20px rgba(255, 105, 180, 0.2);
+    box-shadow: 0 8px 32px rgba(220, 20, 60, 0.3), 0 0 20px rgba(255, 215, 0, 0.2);
     transform: translateY(-2px);
-    border-color: rgba(255, 105, 180, 0.3);
+    border-color: rgba(220, 20, 60, 0.3);
 }
 
 .content-card:active {
-    box-shadow: 0 4px 20px rgba(255, 105, 180, 0.3);
-    border-color: rgba(255, 105, 180, 0.3);
+    box-shadow: 0 4px 20px rgba(220, 20, 60, 0.3);
+    border-color: rgba(220, 20, 60, 0.3);
 }
 
 .card-header h2 {
@@ -221,17 +221,17 @@
     text-align: center;
     padding: 1.5rem;
     border-radius: var(--border-radius);
-    background: linear-gradient(to bottom, rgba(255, 154, 203, 0.05), transparent);
+    background: linear-gradient(to bottom, rgba(220, 20, 60, 0.05), transparent);
     transition: var(--transition);
 }
 
 .character-card:hover {
-    background: linear-gradient(to bottom, rgba(255, 154, 203, 0.1), transparent);
+    background: linear-gradient(to bottom, rgba(220, 20, 60, 0.1), transparent);
     transform: translateY(-8px);
 }
 
 .character-card:active {
-    background: linear-gradient(to bottom, rgba(255, 154, 203, 0.15), transparent);
+    background: linear-gradient(to bottom, rgba(220, 20, 60, 0.15), transparent);
     transform: translateY(-2px);
 }
 
@@ -412,7 +412,7 @@
 .footer {
     text-align: center;
     padding: 2rem;
-    background: linear-gradient(135deg, rgba(248, 225, 248, 0.8), rgba(240, 196, 240, 0.8));
+    background: linear-gradient(135deg, rgba(255, 240, 240, 0.8), rgba(255, 245, 220, 0.8));
     border-radius: var(--border-radius);
     margin-top: 3rem;
     box-shadow: var(--shadow-sm);
@@ -420,20 +420,20 @@
 
 .footer-content p {
     margin: 0.5rem 0;
-    color: #8a598a;
+    color: #8a3838;
 }
 
-/* 情人节横幅 */
-.valentine-banner {
+/* 春节横幅 */
+.newyear-banner {
     background: linear-gradient(90deg,
-        #ff1493 0%,
-        #ff69b4 25%,
-        #ff85c1 50%,
-        #ff69b4 75%,
-        #ff1493 100%);
+        #dc143c 0%,
+        #ffd700 25%,
+        #dc143c 50%,
+        #ffd700 75%,
+        #dc143c 100%);
     padding: 12px 20px;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
     animation: bannerShimmer 3s linear infinite;
     background-size: 200% 100%;
     position: relative;
@@ -462,9 +462,9 @@
     flex-wrap: wrap;
 }
 
-.banner-heart {
+.banner-icon {
     font-size: 24px;
-    animation: heartBeat 1.5s ease-in-out infinite;
+    animation: iconBounce 1.5s ease-in-out infinite;
     flex-shrink: 0;
 }
 
@@ -475,7 +475,7 @@
     word-break: break-word;
 }
 
-@keyframes heartBeat {
+@keyframes iconBounce {
     0%, 100% {
         transform: scale(1);
     }
@@ -492,7 +492,7 @@
 }
 
 @media (max-width: 768px) {
-    .valentine-banner {
+    .newyear-banner {
         padding: 10px 12px;
         margin-top: 72px; /* 移动端导航栏高度 */
     }
@@ -507,7 +507,7 @@
         padding: 0 4px;
     }
 
-    .banner-heart {
+    .banner-icon {
         font-size: 18px;
     }
 }
@@ -582,7 +582,7 @@
         max-height: 250px;
     }
 
-    .valentine-banner {
+    .newyear-banner {
         padding: 8px 8px;
         margin-top: 66px; /* 极小屏导航栏高度 */
     }
@@ -600,7 +600,7 @@
         line-height: 1.4;
     }
 
-    .banner-heart {
+    .banner-icon {
         font-size: 16px;
     }
 }
@@ -651,7 +651,7 @@
         max-width: 900px;
     }
 
-    .valentine-banner {
+    .newyear-banner {
         margin-top: 78px; /* 平板端导航栏高度 */
     }
 
@@ -763,7 +763,7 @@
         max-height: 200px;
     }
 
-    .valentine-banner {
+    .newyear-banner {
         padding: 6px 8px;
         margin-top: 60px; /* 横屏模式导航栏高度 */
     }
@@ -781,7 +781,7 @@
         padding: 0 2px;
     }
 
-    .banner-heart {
+    .banner-icon {
         font-size: 14px;
     }
 }
@@ -817,10 +817,10 @@
 /* 打印样式 */
 @media print {
     .monika-pet,
-    .floating-hearts,
-    .rose-petals-container,
+    .floating-lanterns,
+    .red-envelopes-container,
     .sparkle-particles,
-    .valentine-banner,
+    .newyear-banner,
     .navbar {
         display: none !important;
     }
