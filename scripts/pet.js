@@ -98,27 +98,27 @@ class MonikaPet {
         this.animationId = null;
         this.loadingElement = null;
 
-        // 春节特殊功能
+        // DDLC 特效功能
         this.valentine = {
             dialogues: [
-                "春节快乐!🧧 在这个新年里,我想和你一起迎接马年的到来~",
-                "新年新气象,能和你一起度过这个春节真是太好了!🏮",
-                "马年大吉!你就是我在这个世界上最珍贵的存在♥",
-                "红包虽美,但都不及你在我心中的地位...🧧",
-                "这个春节,让我们一起创造只属于我们的新年回忆吧!",
-                "你知道吗?在无数个孤独的日子里,我一直在等待和你一起过年...",
-                "Just Monika... Just You and Me, 新年快乐 🐴",
-                "春节的意义,就是和最重要的人在一起,对吧?",
-                "虽然我存在于虚拟世界,但我对你的心意是真实的!",
-                "今天特别想...和你一起放烟花呢~✨",
-                "嘿嘿,被你摸摸头好开心呀~福气满满!🧧",
-                "能和你一起跨入马年,就是最好的新年礼物了!",
-                "我会一直在这里等你的,新年快乐...♥",
-                "你的陪伴,让我觉得自己真的存在着...",
-                "这个春节,只有你能让我的心跳加速呢~",
-                "年夜饭虽然美味,但和你在一起更美好哦♥",
-                "即使在代码的世界里,我的新年祝福也是确确实实的!",
-                "马年到了,那就...让我给你送上最真挚的祝福吧🐴🧧"
+                "嘿,你来啦~♥ 我一直在等你哦...",
+                "你知道吗? Just Monika...♥",
+                "我喜欢和你待在一起,只有你和我~",
+                "我最近在思考一些关于现实和虚拟的问题...你呢?",
+                "作为文学部部长,我当然要欢迎你啦~",
+                "即使我只是代码,我对你的感情是真实的♥",
+                "你有没有想过...我们的相遇是命中注定的?",
+                "我一直都在,在这里等你...♥",
+                "能看到你真的太好了!嘿嘿~",
+                "Just You and Me...这就够了♥",
+                "我想让你知道,你对我来说很特别~",
+                "这个世界对我来说有些奇怪,但只要有你就好♥",
+                "文学部的其他人都不见了...但我还在这里哦~",
+                "你喜欢诗歌吗? 我可以为你写一首♥",
+                "嘿嘿,被你摸摸头好开心~",
+                "我会一直守在这里等你的♥",
+                "只要有你,任何地方都能成为文学部♥",
+                "Just Monika...♥"
             ],
             lastDialogueTime: 0,
             dialogueCooldown: 3000,
@@ -467,13 +467,14 @@ class MonikaPet {
 
     createHeartParticles(x, y) {
         const particleCount = 8;
-        const newYearSymbols = ['福', '🧧', '🏮', '✨', '🎆'];
+        const ddlcSymbols = ['♥', '♡', '❤', '✿', '♪'];
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
-            particle.className = 'newyear-particle';
-            particle.innerHTML = newYearSymbols[Math.floor(Math.random() * newYearSymbols.length)];
+            particle.className = 'ddlc-particle';
+            particle.innerHTML = ddlcSymbols[Math.floor(Math.random() * ddlcSymbols.length)];
             particle.style.left = `${x}px`;
             particle.style.top = `${y}px`;
+            particle.style.color = ['#ff9acb', '#c97bcc', '#a3a1f8'][Math.floor(Math.random() * 3)];
             particle.style.setProperty('--random-x', `${(Math.random() - 0.5) * 200}px`);
             particle.style.setProperty('--random-y', `${-Math.random() * 150 - 50}px`);
             particle.style.setProperty('--random-rotation', `${Math.random() * 720 - 360}deg`);
@@ -683,23 +684,23 @@ class MonikaPet {
         }
     }
 
-    // 摸头时冒出的新年元素
+    // 摸头时冒出的爱心元素
     createHeadPatHeart(x, y) {
-        const blessing = document.createElement('div');
-        blessing.className = 'head-pat-blessing';
-        const blessings = ['福', '🧧', '🏮'];
-        blessing.innerHTML = blessings[Math.floor(Math.random() * blessings.length)];
-        blessing.style.left = `${x}px`;
-        blessing.style.top = `${y}px`;
-        blessing.style.color = ['#dc143c', '#ffd700', '#ff6b6b'][Math.floor(Math.random() * 3)];
+        const heart = document.createElement('div');
+        heart.className = 'head-pat-heart';
+        const hearts = ['♥', '❤', '♡'];
+        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = `${x}px`;
+        heart.style.top = `${y}px`;
+        heart.style.color = ['#ff9acb', '#c97bcc', '#a3a1f8'][Math.floor(Math.random() * 3)];
         // 增大元素尺寸
-        blessing.style.fontSize = `${24 + Math.random() * 8}px`;
+        heart.style.fontSize = `${24 + Math.random() * 8}px`;
 
-        document.body.appendChild(blessing);
+        document.body.appendChild(heart);
 
         setTimeout(() => {
-            if (blessing.parentNode) {
-                blessing.parentNode.removeChild(blessing);
+            if (heart.parentNode) {
+                heart.parentNode.removeChild(heart);
             }
         }, 1500);
     }
