@@ -369,6 +369,69 @@
     color: #8a598a;
 }
 
+/* GitHub Star 按钮（导航栏版本） */
+.github-star-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.2rem;
+    background: linear-gradient(135deg, #ff9acb 0%, #c97bcc 50%, #a3a1f8 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    box-shadow: 0 3px 12px rgba(201, 123, 204, 0.35), 0 1px 4px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.github-star-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transition: left 0.5s ease;
+}
+
+.github-star-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(201, 123, 204, 0.45), 0 3px 10px rgba(0, 0, 0, 0.12);
+    border-color: rgba(255, 255, 255, 0.55);
+}
+
+.github-star-btn:hover::before {
+    left: 100%;
+}
+
+.github-star-btn:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.github-logo {
+    width: 18px;
+    height: 18px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+    transition: transform 0.3s ease;
+}
+
+.github-star-btn:hover .github-logo {
+    transform: rotate(360deg);
+}
+
+.github-text {
+    position: relative;
+    z-index: 1;
+}
+
 /* 加载提示 */
 .loading-message {
     text-align: center;
@@ -438,6 +501,16 @@
         padding: 0.8rem;
         max-height: 250px;
     }
+
+    .github-star-btn {
+        padding: 0.65rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .github-logo {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 /* 普通手机 (480px - 768px) */
@@ -477,6 +550,16 @@
         font-size: 0.75rem;
         padding: 1rem;
         max-height: 300px;
+    }
+
+    .github-star-btn {
+        padding: 0.7rem 1.6rem;
+        font-size: 0.95rem;
+    }
+
+    .github-logo {
+        width: 20px;
+        height: 20px;
     }
 }
 
@@ -579,6 +662,16 @@
     .character-grid {
         grid-template-columns: repeat(4, 1fr);
         gap: 1rem;
+    }
+
+    .github-star-btn {
+        padding: 0.6rem 1.4rem;
+        font-size: 0.85rem;
+    }
+
+    .github-logo {
+        width: 17px;
+        height: 17px;
     }
 
     .character-avatar {
