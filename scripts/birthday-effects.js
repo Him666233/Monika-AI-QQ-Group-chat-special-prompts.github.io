@@ -893,26 +893,56 @@
 
     /* ============================================================
        桌宠联动：向 pet.js 的莫妮卡桌宠注入生日模式
+       ------------------------------------------------------------
+       注意时序：pet.js 会先预加载图片，图片加载完才创建桌宠元素。
+       首次访问（图片未缓存）时桌宠出现得较晚，因此这里不能用固定
+       次数的重试窗口——必须一直等到桌宠元素真正出现为止，否则
+       “第一次打开没有生日帽、刷新一次才有”这种问题会复现。
        ============================================================ */
     BirthdayEffects.prototype.initPet = function () {
         var self = this;
 
-        // 桌宠可能还在预加载图片，因此带重试地注入
-        var tries = 0;
-        var attempt = function () {
+        // 1) 对话注入 + 生日粒子：只依赖 window.monikaPet，尽早执行
+        var dialogueTries = 0;
+        var ensureDialogue = function () {
             if (self.applyPetBirthday()) return;
-            tries++;
-            if (tries < 40) {
-                window.setTimeout(attempt, 250);
+            dialogueTries++;
+            if (dialogueTries < 40) {
+                window.setTimeout(ensureDialogue, 250);
             }
+        };
+
+        // 2) 生日帽：必须等桌宠元素真的被创建出来（可能在图片加载完成之后）
+        var hatApplied = false;
+        var hatTries = 0;
+        var ensureHat = function () {
+            if (hatApplied) return;
+
+            var pet = window.monikaPet;
+            if (pet && pet.element && pet.element.nodeType === 1) {
+                self.attachPetHat(pet);
+                hatApplied = true;
+                return;
+            }
+
+            // 前 10 秒密集轮询，之后转为每 2 秒一次的兜底轮询，直到戴上为止
+            hatTries++;
+            var delay = hatTries < 40 ? 250 : 2000;
+            window.setTimeout(ensureHat, delay);
+        };
+
+        var start = function () {
+            // 立刻尝试一次，再进入轮询
+            ensureDialogue();
+            ensureHat();
         };
 
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function () {
-                window.setTimeout(attempt, 400);
+                window.setTimeout(start, 300);
             });
         } else {
-            window.setTimeout(attempt, 400);
+            window.setTimeout(start, 300);
         }
     };
 
@@ -923,6 +953,8 @@
         var dialogueBox = pet.valentine;
         if (!dialogueBox || !Array.isArray(dialogueBox.dialogues)) return false;
 
+        // 对话/粒子只注入一次；但生日帽由 ensureHat 独立保证，
+        // 即使这里已经注入过，帽子仍可在桌宠元素稍后出现时补上。
         if (dialogueBox.__birthdayApplied) return true;
 
         // 生日祝福对话放在最前面，让桌宠优先说出祝福
@@ -931,7 +963,6 @@
 
         // 桌宠进入生日模式：点击时额外掉落生日元素
         pet.birthdayMode = true;
-        this.attachPetHat(pet);
 
         var originalParticles = pet.createHeartParticles;
 
