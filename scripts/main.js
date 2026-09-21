@@ -172,13 +172,40 @@ function openVersionModal(version) {
     // 显示模态窗口
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    // 阅读提示词时暂停生日主题的背景音乐，避免互相干扰
+    pauseBirthdayMusic();
 }
 
 // 关闭模态窗口
 function closeModal() {
     const modal = document.getElementById('versionModal');
+    if (!modal) return;
     modal.classList.remove('active');
     document.body.style.overflow = 'auto';
+
+    // 恢复生日主题的背景音乐（仅在用户此前没有主动暂停时）
+    resumeBirthdayMusic();
+}
+
+// 以下两个函数用于与生日主题脚本（scripts/birthday-effects.js）协作
+function pauseBirthdayMusic() {
+    const effects = window.birthdayEffects;
+    if (!effects || !effects.audio || effects.state.audioUnavailable) return;
+    effects.modalPaused = !effects.audio.paused;
+    if (effects.modalPaused) {
+        effects.audio.pause();
+    }
+}
+
+function resumeBirthdayMusic() {
+    const effects = window.birthdayEffects;
+    if (!effects || !effects.audio || effects.state.audioUnavailable) return;
+    if (effects.modalPaused && !effects.state.userPaused) {
+        effects.modalPaused = false;
+        effects.play();
+    }
+    effects.modalPaused = false;
 }
 
 // 复制提示词内容
