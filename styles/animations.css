@@ -1,0 +1,648 @@
+/* 动画定义 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes patternScroll {
+    0% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+@keyframes floatHeart {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(0deg) scale(0.8);
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20vh) rotate(360deg) scale(1.2);
+    }
+}
+
+/* 浮动爱心 */
+.floating-hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.heart {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff9acb'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") no-repeat center center;
+    background-size: contain;
+    opacity: 0;
+}
+
+.heart:nth-child(1) {
+    left: 10%;
+    animation: floatHeart 20s linear infinite;
+    animation-delay: 0s;
+    width: 24px;
+    height: 24px;
+}
+
+.heart:nth-child(2) {
+    left: 30%;
+    animation: floatHeart 25s linear infinite;
+    animation-delay: 5s;
+    width: 38px;
+    height: 38px;
+}
+
+.heart:nth-child(3) {
+    left: 50%;
+    animation: floatHeart 22s linear infinite;
+    animation-delay: 10s;
+    width: 32px;
+    height: 32px;
+}
+
+.heart:nth-child(4) {
+    left: 70%;
+    animation: floatHeart 28s linear infinite;
+    animation-delay: 15s;
+    width: 28px;
+    height: 28px;
+}
+
+.heart:nth-child(5) {
+    left: 90%;
+    animation: floatHeart 24s linear infinite;
+    animation-delay: 20s;
+    width: 34px;
+    height: 34px;
+}
+
+.heart:nth-child(6) {
+    left: 20%;
+    animation: floatHeart 18s linear infinite;
+    animation-delay: 3s;
+    width: 26px;
+    height: 26px;
+}
+
+.heart:nth-child(7) {
+    left: 40%;
+    animation: floatHeart 26s linear infinite;
+    animation-delay: 8s;
+    width: 30px;
+    height: 30px;
+}
+
+.heart:nth-child(8) {
+    left: 60%;
+    animation: floatHeart 21s linear infinite;
+    animation-delay: 12s;
+    width: 36px;
+    height: 36px;
+}
+
+.heart:nth-child(9) {
+    left: 80%;
+    animation: floatHeart 23s linear infinite;
+    animation-delay: 16s;
+    width: 28px;
+    height: 28px;
+}
+
+.heart:nth-child(10) {
+    left: 15%;
+    animation: floatHeart 27s linear infinite;
+    animation-delay: 22s;
+    width: 32px;
+    height: 32px;
+}
+
+/* 模态窗口样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: var(--border-radius);
+    width: 95%;
+    max-width: 1000px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #ff9acb 0%, #c97bcc 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    color: white;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: var(--transition);
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 2rem;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.modal-intro {
+    background: linear-gradient(135deg, rgba(249, 243, 249, 0.8), rgba(233, 215, 233, 0.3));
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.modal-intro h3 {
+    color: var(--secondary-color);
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.modal-intro p {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.modal-prompt-section {
+    margin-top: 1.5rem;
+}
+
+.modal-prompt-section h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.modal-prompt-content {
+    background: #f8f8f8;
+    padding: 1.5rem;
+    border-radius: 10px;
+    font-family: 'Courier New', 'Consolas', monospace;
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #e0e0e0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.modal-prompt-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-prompt-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.modal-prompt-content::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 4px;
+}
+
+.modal-prompt-content::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+.copy-btn {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.copy-btn.copied {
+    background: #4CAF50;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 98%;
+        max-height: 95vh;
+    }
+
+    .modal-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .modal-prompt-content {
+        font-size: 0.75rem;
+        padding: 1rem;
+        max-height: 300px;
+    }
+}
+
+/* 滚动条美化 */
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 6px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* =============================================
+   莫妮卡桌宠样式
+   ============================================= */
+
+.monika-pet {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    transition: filter 0.2s ease;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.monika-pet:hover,
+.monika-pet.touch-active {
+    filter: drop-shadow(0 6px 12px rgba(255, 154, 203, 0.4));
+}
+
+.monika-pet:active {
+    cursor: grabbing;
+}
+
+.monika-pet img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* 桌宠落地时的微小弹跳动画 */
+@keyframes petBounce {
+    0%, 100% {
+        transform: scaleY(1) scaleX(1);
+    }
+    50% {
+        transform: scaleY(0.9) scaleX(1.1);
+    }
+}
+
+.monika-pet.bouncing img {
+    animation: petBounce 0.15s ease-out;
+}
+
+/* =============================================
+   响应式调整 - 全设备适配
+   ============================================= */
+
+/* 极小屏手机 (< 480px) - iPhone SE等 */
+@media (max-width: 479px) {
+    .monika-pet {
+        width: 75px !important;
+        height: 94px !important;
+    }
+
+    .monika-dialogue-box {
+        max-width: 180px;
+        font-size: 11px;
+        padding: 8px 12px;
+        line-height: 1.5;
+    }
+
+    .ddlc-particle {
+        font-size: 20px;
+    }
+
+    /* 极小屏隐藏更多爱心，只保留3个 */
+    .heart:nth-child(n+4) {
+        display: none;
+    }
+}
+
+/* 普通手机 (480px - 768px) */
+@media (min-width: 480px) and (max-width: 768px) {
+    .monika-pet {
+        width: 90px !important;
+        height: 112px !important;
+    }
+
+    .monika-dialogue-box {
+        max-width: 220px;
+        font-size: 12px;
+        padding: 10px 14px;
+        line-height: 1.5;
+    }
+
+    .ddlc-particle {
+        font-size: 22px;
+    }
+
+    /* 隐藏部分爱心，保留6个 */
+    .heart:nth-child(n+7) {
+        display: none;
+    }
+}
+
+/* 平板端 (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .monika-pet {
+        width: 110px !important;
+        height: 138px !important;
+    }
+
+    .monika-dialogue-box {
+        max-width: 260px;
+        font-size: 13px;
+        padding: 12px 16px;
+    }
+
+    /* 平板保留8个爱心 */
+    .heart:nth-child(n+9) {
+        display: none;
+    }
+}
+
+/* 小屏电脑 (1024px - 1440px) - 保持默认 */
+@media (min-width: 1024px) and (max-width: 1440px) {
+    .monika-pet {
+        width: 120px !important;
+        height: 150px !important;
+    }
+}
+
+/* 大屏电脑 (> 1440px) - 稍微放大 */
+@media (min-width: 1440px) {
+    .monika-pet {
+        width: 130px !important;
+        height: 163px !important;
+    }
+
+    .monika-dialogue-box {
+        max-width: 320px;
+        font-size: 15px;
+    }
+}
+
+/* 横屏模式优化 (小屏设备横屏) */
+@media (max-width: 768px) and (orientation: landscape) {
+    .monika-pet {
+        width: 70px !important;
+        height: 88px !important;
+    }
+
+    .monika-dialogue-box {
+        max-width: 200px;
+        font-size: 11px;
+        padding: 8px 12px;
+    }
+
+    /* 横屏时隐藏更多装饰元素 */
+    .heart:nth-child(n+5) {
+        display: none;
+    }
+}
+
+/* =============================================
+   莫妮卡对话框 - DDLC风格
+   ============================================= */
+
+.monika-dialogue-box {
+    position: fixed;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 240, 248, 0.98) 100%);
+    color: #5a3060;
+    padding: 15px 20px;
+    border-radius: 20px;
+    max-width: 300px;
+    font-family: 'Microsoft YaHei', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    box-shadow: 0 8px 25px rgba(201, 123, 204, 0.4), 0 0 0 2px rgba(255, 154, 203, 0.3);
+    z-index: 10001;
+    transform: translate(-50%, -100%);
+    animation: dialogueFadeIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    pointer-events: none;
+    border: 2px solid rgba(255, 154, 203, 0.5);
+}
+
+.dialogue-arrow {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid rgba(255, 240, 248, 0.98);
+    filter: drop-shadow(0 3px 5px rgba(201, 123, 204, 0.2));
+}
+
+.dialogue-content {
+    text-align: center;
+    font-weight: 500;
+    color: #5a3060;
+    letter-spacing: 0.5px;
+}
+
+@keyframes dialogueFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -80%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -100%) scale(1);
+    }
+}
+
+@keyframes dialogueFadeOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -100%) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -120%) scale(0.9);
+    }
+}
+
+/* DDLC 点击粒子效果 */
+.ddlc-particle {
+    position: fixed;
+    font-size: 24px;
+    pointer-events: none;
+    z-index: 10000;
+    animation: particleFloat 1.2s ease-out forwards;
+    text-shadow: 0 0 10px rgba(255, 154, 203, 0.8),
+                 0 0 20px rgba(201, 123, 204, 0.5);
+}
+
+@keyframes particleFloat {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg) scale(0.5);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translate(var(--random-x), calc(var(--random-y) * 0.5))
+                   rotate(calc(var(--random-rotation) * 0.5)) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--random-x), var(--random-y))
+                   rotate(var(--random-rotation)) scale(0.3);
+    }
+}
+
+/* 摸头爱心效果 */
+.head-pat-heart {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10000;
+    font-weight: bold;
+    animation: headPatFloat 1.5s ease-out forwards;
+    text-shadow: 0 0 8px currentColor,
+                 0 0 15px currentColor;
+}
+
+@keyframes headPatFloat {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(0.9) rotate(0deg);
+    }
+    50% {
+        opacity: 0.9;
+        transform: translate(-50%, -30px) scale(1.05) rotate(8deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -60px) scale(0.6) rotate(15deg);
+    }
+}
+
+/* 打印样式 */
+@media print {
+    .monika-pet,
+    .floating-hearts,
+    .navbar {
+        display: none !important;
+    }
+
+    .content-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}

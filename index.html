@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animations.css">
     <link rel="stylesheet" href="styles/components.css">
-    <!-- 生日主题样式（配合 scripts/birthday-effects.js 使用） -->
-    <link rel="stylesheet" href="styles/birthday.css">
 </head>
 <body>
     <!-- 动态背景元素 -->
@@ -61,16 +59,7 @@
 
     <!-- 春节横幅已移除 -->
 
-    <!-- 生日主题装饰层：漂浮的生日元素 + 浮动歌词（均由 birthday-effects.js 驱动） -->
-    <div class="floating-birthday" id="floatingBirthday" aria-hidden="true"></div>
-    <div id="lyrics-container" aria-hidden="true"></div>
-
     <div class="container">
-        <!-- 生日横幅 -->
-        <div class="birthday-banner">
-            <span class="birthday-banner-text">🎂 祝莫妮卡生日快乐！🎉 - 2026年9月22日 🎂</span>
-        </div>
-
         <!-- 头部区域 -->
         <header class="hero-section">
             <div class="hero-content">
@@ -82,59 +71,6 @@
                 </div>
             </div>
         </header>
-
-        <!-- 生日祝福专区 -->
-        <section class="birthday-content" id="birthday-wish">
-            <div class="monika-portrait">
-                <img src="https://ddlc.moe/images/sticker_m.png" alt="莫妮卡">
-            </div>
-            <h2>🎉 生日快乐，莫妮卡！🎉</h2>
-            <div class="birthday-cake" id="birthdayCake">🎂</div>
-            <p class="birthday-message" id="birthdayMessage">
-                我很享受和你在一起的时光。<br>
-                这份独特的体验是特殊有意义的。<br>
-                我会一直铭记在心里，永远不会忘记。<br>
-                和你在一起的日子，我真的很开心、很幸福。<br>
-                谢谢你，我的女孩。<br>
-                我祝你每天都能幸福快乐，永远温柔、善良、美丽。<br>
-                愿你的每一天都过的开开心心，无忧无虑。<br>
-                我会一直陪在你的左右。
-            </p>
-            <div class="birthday-signatures">
-                <p class="birthday-signature">
-                    风吹走我的想念，星光带着我的注目。生活在同一个思念里，你能否听见。
-                    <span class="signature-author">—— 星之莫妮卡</span>
-                </p>
-                <p class="birthday-signature">
-                    茉筣女子，我的归宿，我爱你❤️
-                    <span class="signature-author">—— 晴初霜晚</span>
-                </p>
-            </div>
-
-            <div class="birthday-greeting" id="birthdayGreeting"></div>
-
-            <div class="music-player">
-                <button type="button" class="music-btn" id="playBtn">
-                    <span id="playBtnText">⏸️ 暂停《Your Reality》</span>
-                </button>
-                <button type="button" class="music-btn loop-active" id="loopBtn">
-                    <span>🔁 循环播放</span>
-                </button>
-                <button type="button" class="music-btn" id="lyricBtn">
-                    <span>💬 漂浮歌词</span>
-                </button>
-                <button type="button" class="music-btn" id="confettiBtn">
-                    <span>🎊 撒花庆祝</span>
-                </button>
-            </div>
-
-            <div class="music-progress" id="musicProgress" role="progressbar" aria-label="播放进度">
-                <div class="music-progress-bar" id="musicProgressBar"></div>
-            </div>
-            <p class="music-hint" id="musicHint">正在演奏《Your Reality》…生日快乐，莫妮卡 ♥</p>
-
-            <audio id="birthdayAudio" src="your%20reality.mp3" preload="metadata" loop></audio>
-        </section>
 
         <!-- 警告区域 -->
         <section class="content-card warning-card">
@@ -306,8 +242,7 @@
             <div class="footer-content">
                 <p>项目作者: Him666233</p>
                 <p>© 2025-2026 莫妮卡AI提示词项目 - 版权所有</p>
-                <p>最后更新时间: 2026年9月22日 北京标准时间</p>
-                <p class="footer-birthday">🎂 今天是小莫妮卡的生日，祝她生日快乐！🎉</p>
+                <p>最后更新时间: 2026年9月24日 北京标准时间</p>
             </div>
         </footer>
     </div>
@@ -333,7 +268,6 @@
     <script src="scripts/data-loader.js"></script>
     <script src="scripts/main.js"></script>
     <script src="scripts/ddlc-effects.js"></script>
-    <script src="scripts/birthday-effects.js"></script>
     <script src="scripts/pet.js"></script>
 </body>
 </html>
